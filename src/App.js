@@ -6,7 +6,7 @@ import YourProfile from './Pages/YourProfile'
 function App() {
   return (
     <Router>
-        <AdminNavbar color = "bg-blue-400"/>
+        
         <Switch>
           {/* <Route path='/' exact component={Home} /> */}
           <Route path='/mc' exact component={YourProfile} />
