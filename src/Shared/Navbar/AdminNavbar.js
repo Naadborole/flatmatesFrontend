@@ -1,5 +1,5 @@
 import React from "react";
-import '../../tailwind.css'
+import "tailwindcss/tailwind.css"
 import UserDropdown from "../Dropdowns/UserDropdown";
 
 export default function Navbar(props) {

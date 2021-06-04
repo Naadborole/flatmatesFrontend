@@ -3,27 +3,28 @@ import CardSettings from "../Components/YourProfile/CardSettings";
 import SidebarSettings from "../Components/YourProfile/SidebarSettings";
 import CardProfile from "../Components/YourProfile/CardProfile";
 import HeaderStats from "../Components/YourProfile/HeaderStats";
+import AdminNavbar from '../Shared/Navbar/AdminNavbar';
 
 function YourProfile() {
   const user = {
-    username : "naadborole",
-    email : "naad.borole2000@gmail.com",
+    username: "naadborole",
+    email: "naad.borole2000@gmail.com",
     firstname: "Naad",
     lastname: "Borole",
     gender: "Male",
     dob: "2000-04-21",
     age: 21,
-    state : "Maharashtra",
+    state: "Maharashtra",
     country: "India",
     city: "Pune",
     profession: "Student",
     Institution: "Pune Institute of Computer Technology",
-    addline1: "B-1301 ajcbohslnoac aoiscopisj aisjcopaj"
+    addline1: "B-1301 ajcbohslnoac aoiscopisj aisjcopaj",
   };
-
 
   return (
     <>
+      <AdminNavbar color="bg-transparent" />
       <SidebarSettings></SidebarSettings>
       <div className="relative md:ml-64 bg-blueGray-100">
         <HeaderStats />
@@ -33,7 +34,7 @@ function YourProfile() {
               <CardSettings {...user} />
             </div>
             <div className="w-full lg:w-4/12 px-4">
-              <CardProfile {...user}/>
+              <CardProfile {...user} />
             </div>
           </div>
         </div>
