@@ -21,6 +21,7 @@ module.exports = {
   theme: {
     colors: {
       ...colors,
+      "bluenav" : "#003566"
     },
     extend: {
       minHeight: {
@@ -80,6 +81,9 @@ module.exports = {
       backgroundSize: {
         full: "100%",
       },
+      boxShadow: {
+        '3xl': '0 35px 40px -15px rgba(0, 0, 0, 0.4)',
+      }
     },
   },
   variants: [
