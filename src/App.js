@@ -9,6 +9,7 @@ import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import PrivateRoute from "./PrivateRoute";
 import { AuthProvider } from "./Auth";
+import Test from "./Pages/Test";
 // components
 
 function App() {
@@ -20,7 +21,7 @@ function App() {
         <Route path='/home' exact component={Home} />
         <Route path = '/login' exact component = {Login}></Route>
         <PrivateRoute path="/mc" exact component={YourProfile} />
-        <Route path = "/test" exact component = {Form}/>
+        <Route path = "/test" exact component = {Test}/>
         <Route path = "/register" exact component = {Register}/>
       </Switch>
     </Router>
