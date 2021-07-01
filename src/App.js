@@ -10,6 +10,7 @@ import Register from "./Pages/Register";
 import PrivateRoute from "./PrivateRoute";
 import { AuthProvider } from "./Auth";
 import Test from "./Pages/Test";
+import ImgComp from "./Components/ImgComp";
 // components
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
         <PrivateRoute path="/mc" exact component={YourProfile} />
         <Route path = "/test" exact component = {Test}/>
         <Route path = "/register" exact component = {Register}/>
+        <Route path = "/ImgComp" exact component = {ImgComp}/>
       </Switch>
     </Router>
     </AuthProvider>

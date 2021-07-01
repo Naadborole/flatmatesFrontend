@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import background from "../assets/img/register_bg_2.png";
 import { Link } from "react-router-dom";
 import app from "../firebase";
 
 export default function Login({history}) {
+    const [user,setUser] = useState();
+    //const user = app.auth().currentUser;
  
     const handleformSubmit = React.useCallback(
       async (event) => {
@@ -13,13 +15,27 @@ export default function Login({history}) {
           await app
             .auth()
             .signInWithEmailAndPassword(email.value, password.value);
-          history.push("/home");
+            
+          setUser(app.auth().currentUser);
+
+          app.auth().onAuthStateChanged((user) => {
+            if (user) {
+              if (user.emailVerified === false) {
+                alert("Email is not verified!");
+                app.auth().signOut();
+              }
+              else
+                history.push("/home");
+            }
+          });
         } catch (error) {
           alert(error);
         }
       },
       [history]
     );
+
+    
 
   return (
     <>
