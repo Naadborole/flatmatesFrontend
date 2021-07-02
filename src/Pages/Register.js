@@ -1,22 +1,48 @@
 import React, { useState} from "react";
 import background from "../assets/img/register_bg_2.png";
 import app from "../firebase";
+import axios from "axios";
 
 export default function Register() {
 
   const [email , setemail] = useState('');
   const [password , setpassword] = useState('');
+  const [firstname, setfirstname] = useState('');
+  const [lastname, setlastname] = useState('');
+  const [username, setUsername] = useState('');
+  const [DOB, setDOB] = useState('');
+  const [MobileNumber, setMobileNumber] = useState();
+  //const [userID, setUserID] = useState('abcd');
+  let temp;
   
-  const signup = ()=>{
-      app.auth().createUserWithEmailAndPassword(email , password)
+  const signup = async ()=>{
+
+      await app.auth().createUserWithEmailAndPassword(email , password)
       .then((userCredential)=>{
           // send verification mail.
         userCredential.user.sendEmailVerification();
+        temp = userCredential.user.uid;
         app.auth().signOut();
         alert("Verification link has been send to your registered email-id");
         //alert("Email sent");
       })
       .catch(alert);
+
+      
+      //setUserID(temp);
+      console.log(temp);
+
+      await axios.post("http://localhost:5000/user/signup", {
+        user : {
+          firstname : firstname,
+          lastname: lastname,
+          email: email,
+          username : username,
+          DOB: DOB,
+          MobileNumber: MobileNumber
+        },
+        uid : temp
+      });
   }
 
 
@@ -58,6 +84,7 @@ export default function Register() {
                             type="text"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                             defaultValue=""
+                            onChange={(e)=>{setfirstname(e.target.value)}}
                           />
                         </div>
                       </div>
@@ -73,6 +100,7 @@ export default function Register() {
                             type="text"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                             defaultValue=""
+                            onChange={(e)=>{setlastname(e.target.value)}}
                           />
                         </div>
                       </div>
@@ -89,6 +117,7 @@ export default function Register() {
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                             defaultValue=""
                             name="username"
+                            onChange={(e)=>{setUsername(e.target.value)}}
                           />
                         </div>
                       </div>
@@ -103,6 +132,7 @@ export default function Register() {
                           <input
                             type="date"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                            onChange={(e)=>{setDOB(e.target.value)}}
                           />
                         </div>
                       </div>
@@ -154,6 +184,7 @@ export default function Register() {
                             type="tel"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                             defaultValue="mobile number"
+                            onChange={(e)=>{setMobileNumber(e.target.value)}}
                           />
                         </div>
                       </div>
