@@ -1,20 +1,39 @@
 import Card from '../Shared/Cards/Card';
 import Filters from "../Components/Home/Filters";
 import "../Shared/Cards/patternCss.css"
+import axios from 'axios';
+import React, {useState , useEffect} from "react";
 
-const cardData = {
-    firstname: "Naad",
-    lastname : "Borole",
-    age: 21,
-    gender: "Male",
-    Institution: "Pune Institute of Computer Technology",
-    profession: "Student",
-    area: "Bibwewadi",
-    city: "Pune",
-    rent: 15000,
-    vacancy: 2
-  }
+// const cardData = {
+//     firstname: "Naad",
+//     lastname : "Borole",
+//     age: 21,
+//     gender: "Male",
+//     Institution: "Pune Institute of Computer Technology",
+//     profession: "Student",
+//     area: "Bibwewadi",
+//     city: "Pune",
+//     rent: 15000,
+//     vacancy: 2
+//   }
+
+
 export default function Home() {
+
+  const [cardData, setCardData] = useState([]);
+  console.log("Aniket");
+
+  const fetchdata = async () => {
+      const res = await axios.get("http://localhost:5000/user/getAllPost")
+      setCardData(res.data)
+  }  
+  
+  useEffect( () => {
+    fetchdata();
+  }, []);
+  
+  
+
   return (
     <div>
       {/* <header className="bg-white shadow">
@@ -25,10 +44,16 @@ export default function Home() {
       <main className="bg-transparent">
         <div className="w-full py-6 mt-5 px-5 flex flex-row">
           <div className="realtive sm:w-8/12 w-full">
-            <Card {...cardData}></Card>
-            <Card {...cardData}></Card>
-            <Card {...cardData}></Card>
-            <Card {...cardData}></Card>
+            {cardData.map((data) => (
+                <Card {...data}></Card>
+              )
+            )}
+
+            {/* // <Card {...cardData}></Card>
+            // <Card {...cardData}></Card>
+            // <Card {...cardData}></Card>
+            // <Card {...cardData}></Card> */}
+
           </div>
           <div className="relative w-full sm:w-4/12 ml-5">
             <Filters></Filters>

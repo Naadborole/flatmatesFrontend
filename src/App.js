@@ -11,6 +11,8 @@ import PrivateRoute from "./PrivateRoute";
 import { AuthProvider } from "./Auth";
 import Test from "./Pages/Test";
 import ImgComp from "./Components/ImgComp";
+import CreatePost from "./Pages/CreatePost";
+import Description from "./Pages/Description"
 // components
 
 function App() {
@@ -25,6 +27,8 @@ function App() {
         <Route path = "/test" exact component = {Test}/>
         <Route path = "/register" exact component = {Register}/>
         <Route path = "/ImgComp" exact component = {ImgComp}/>
+        <Route path = "/CreatePost" exact component = {CreatePost}/>
+        <Route path = "/Description/:id" exact component = {Description}/>
       </Switch>
     </Router>
     </AuthProvider>

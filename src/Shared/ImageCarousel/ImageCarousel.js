@@ -1,11 +1,21 @@
 import "./stackedCards.css";
 import stackedCards from "./stackedCards";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+
 
 export default function ImageCarousel(props) {
-  const imgArr = props.imgArr;
+
+  //const [tempImgUrl, settempImgUrl] = useState([]);
+  // const imgArr = props.value.ImgUrl;
+  console.log("propsImgUrl",props.ImgUrl)
+  // console.log("imgArr",imgArr);
+
+  // const timepass = async () => {
+  //   await settempImgUrl(props.ImgUrl);
+  // }
 
   useEffect(() => {
+    // timepass();
     const stackedCard = new stackedCards({
       selector: ".images",
       layout: "slide",
@@ -13,19 +23,20 @@ export default function ImageCarousel(props) {
       maxHieght: 200,
     });
 
-    stackedCard.draw();
+    stackedCard.draw()
+    // setTimeout(stackedCard.draw(),10000);
   }, []);
 
   let count = 0;
 
   return (
     <div>
-      <script src="stackedCards.js"></script>
+      <script src="stackedCards.js"></script> 
       <div className="images stacked-cards stacked-cards-slide">
         <ul>
-          {imgArr.map((link, ind) => (
+          {/*tempImgUrl*/props.ImgUrl.map((link, ind) => (
             <li key = {ind}>
-              <img className = "h-full w-full object-fill" src={link} alt="pic"/ >
+              <img className = "h-full w-full object-fill" src={link} alt="pic" />
             </li>
           ))}
         </ul>

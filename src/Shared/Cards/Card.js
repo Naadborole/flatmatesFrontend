@@ -1,18 +1,23 @@
 import React from "react";
 import "../../tailwind.css";
 import './patternCss.css';
+import Description from "../../Pages/Description";
+import { Link , Route } from 'react-router-dom'
 export default function Card(props) {
   const imgStyle = {
     height: '275px',
     width: "300px",
   };
+  let tempurl = "/Description/" + props.pid;
 
   return (
     <>
+    <Link to={tempurl}>
       <div className="relative flex flex-row break-words bg-white w-full mb-8 shadow-3xl hover:shadow-lg rounded-lg border-t-8 border-bluenav p-4 pattern">
         <div className="h-full">
           <img
-            src="https://picsum.photos/id/1000/600/500"
+            //src="https://picsum.photos/id/1000/600/500"
+            src = {props.ImgUrl[0]}
             alt="pic"
             className="object-fit rounded-lg"
             style={imgStyle}
@@ -25,7 +30,7 @@ export default function Card(props) {
           <div className="relative justify-between flex flex-row font-semibold mb-2">
             <div className = "mr-14">
               <span className="text-muted text-gray-400 mr-2 uppercase text-sm">Area{"  "}</span>
-              <span className = "text-lg ">{props.area}</span>
+              <span className = "text-lg ">{props.addressline1}</span>
             </div>
             <div>
               <span className="text-muted text-gray-400 mr-2 uppercase text-sm">City{"  "}</span>
@@ -57,6 +62,7 @@ export default function Card(props) {
           </div>
         </div>
       </div>
+      </Link>
     </>
   );
 }

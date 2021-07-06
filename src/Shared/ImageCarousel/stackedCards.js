@@ -36,6 +36,7 @@ export default class stackedCards {
     var selector = this.config.selector;
     this.els = document.querySelectorAll(selector + " li");
     var els = this.els;
+    console.log("els",els);
     this.parent = els[0].parentNode;
     var getItemHeight = me.getHeight().max;
     els.forEach((item) => (item.style.height = parseInt(getItemHeight) + "px"));

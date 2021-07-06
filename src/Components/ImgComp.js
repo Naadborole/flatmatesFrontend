@@ -2,7 +2,7 @@ import React, { useEffect , useState } from "react";
 import app from "../firebase";
 
 
-function ImgComp() {
+function ImgComp(props) {
   const [fileUrl, setFileUrl] = useState([]);
   const [Img, setImg] = useState([]);
   const [progress, setProgress] = useState(0);
@@ -42,6 +42,7 @@ function ImgComp() {
   }
 
   const handleUpload = async (e) => {
+    e.preventDefault();
     if(Img.length === 0)
     {
       alert('please choose images');
@@ -109,6 +110,7 @@ function ImgComp() {
 
   console.log("images : " , Img);
   console.log("urls : " , fileUrl);
+  props.getImgUrl(fileUrl)
 
   return (
     <>
@@ -116,14 +118,12 @@ function ImgComp() {
         <input type="file" multiple onChange={ handleChange } />
         <progress value={ progress } max="100" />
         <button onClick={ handleUpload }>Upload</button>
-        <input type="text" name="username" placeholder="NAME" />
-        <button>Submit</button>
       </form>
       <br />
       {fileUrl.map((url) => (
         <div>
           <img style={{ width: "500px" }} src={url || "http://via.placeholder.com/300"} alt="firebase ka chitra" />
-          <button onClick={() => handleDelete(url) } style={{backgroundColor : "red", padding:"10px", color:"white"}}> Delete </button> 
+          <button type="button" onClick={() => handleDelete(url) } style={{backgroundColor : "red", padding:"10px", color:"white"}}> Delete </button> 
           <br />
         </div>
         )
@@ -132,4 +132,6 @@ function ImgComp() {
   );
 }
 
+
 export default ImgComp;
+
