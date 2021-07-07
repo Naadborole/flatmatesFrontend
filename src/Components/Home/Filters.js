@@ -7,21 +7,13 @@ import axios from 'axios';
 // import Button from '@material-ui/core/Button';
 
 
-
 export default function Filters() {
+  
   const Genderoptions = [
     { label: "other", value: "other" },
     { label: "Male", value: "male" },
     { label: "Female", value: "female" },
   ];
-
-  // const Cityoptions = [
-  //   { label: "Mumbai", value: "Mumbai" },
-  //   { label: "Pune", value: "Pune" },
-  //   { label: "Nagpur", value: "Nagpur" },
-  //   { label: "Delhi", value: "Delhi" },
-  // ];
-  const Cityoptions=[];
 
   const Rentoptions = [
     { value: "less than 3000", label: "less than 3000" },
@@ -31,70 +23,96 @@ export default function Filters() {
     { value: "more than 10000", label: "more than 10000" },
   ];
 
-  
-
-  const [tempdata, settempdata] = useState([]);
-
-
-
-  
-  const Areaoptions = [];
   const [cityvalue, setcityvalue] = useState('');
-  
+  const [data, setData] = useState([]);
+  const [Cityoptions,setCityoptions] = useState([]);
+  const [AllAreaoptions,setAllAreaoptions] = useState([]);
+  const [pending, setPending] = useState(true);
+
+  useEffect(() => {
+      fetchdata();
+      console.log("piyush")
+  },[]);
+
+  useEffect(() => {
+    console.log("city",Cityoptions);
+    console.log("CityOptions rendered")
+  }, [Cityoptions]);
+
+  useEffect(() => {
+    console.log("area",AllAreaoptions);
+    console.log("AllAreaOptions rendered");
+  },[AllAreaoptions]);
+
+  useEffect(() => {
+    console.log("pending done!");
+  },[pending]);
+
+  useEffect(() => {
+    console.log("city value changes", cityvalue);
+    fetcharea();
+  },[cityvalue]);
+
+  const fetchdata = async () => {
+    const temp = [];
+    const temp2 = [];
+    const res = await axios.get("http://localhost:5000/user/getAllPost");
+    console.log("res.data",res.data);
+    setData(res.data);
+    res.data.forEach(doc =>{
+        if(temp.indexOf({ label: doc.city, value: doc.city }) === -1){
+            temp.push({ label: doc.city, value: doc.city });
+        }
+        if(temp2.indexOf({ label: doc.addressline1, value: doc.addressline1 }) === -1){
+            temp2.push({ label: doc.addressline1, value: doc.addressline1 });
+        }
+    })
+    setCityoptions(temp);
+    setAllAreaoptions(temp2);
+    console.log("om");
+    setPending(false);
+  }
+
+  const fetcharea = async () => {
+    console.log("data",data);
+    AllAreaoptions.length = 0;
+    data.forEach(doc => {
+        if(doc.city === cityvalue)
+        {
+            AllAreaoptions.push({ label: doc.addressline1, value: doc.addressline1 });
+        }
+    })
+  }
+ 
   const handlechange = e => {
-    //CityComponent.setSelec(e.value);
     console.log(e.value)
     setcityvalue(e.value);
     
   }
-  
-  const fetchcity = async () => {
-    const res = await axios.get("http://localhost:5000/user/getAllPost")
-    console.log(res.data,"in fetchcity()");
-    settempdata(res.data);
-    res.data.forEach(doc => {
-      //if(Cityoptions.indexOf({ label: doc.city, value: doc.city }) === -1){
-      Cityoptions.push({ label: doc.city, value: doc.city });
-      //}
-    });
-    console.log(Cityoptions,"cityoptions");
+
+  if (pending) {
+    return (<><div>Loading....</div></>);
   }
-
-  const fetchdata = async () => {
-    //const res = await axios.get("http://localhost:5000/user/getAllPost")
-    //console.log(res.data);
-    console.log(tempdata, "tempdata");
-    tempdata.forEach(doc => {
-      console.log("out of found city:",doc.city)
-      console.log(cityvalue);
-      if(doc.city===cityvalue)
-      {
-        console.log("found city:",doc.city)
-        Areaoptions.push({ label: doc.addressline1, value: doc.addressline1 });
-        console.log(Areaoptions, "area options")
-      }
-    });
-  }  
-    
-  //const check = useRef(false);
-
-
   
-
 
   const GenderComponent = () => <Select options={Genderoptions} />;
 
-  const CityComponent = () => <Select options={Cityoptions} onChange={handlechange}  value={Cityoptions.filter(function(option) {
+  const CityComponent = () => <Select  onChange={handlechange} options={Cityoptions} value={Cityoptions.filter(function(option) {
     return option.value === cityvalue;
   })}/>;
 
-  
-
   const MyComponent = () => <Select options={Rentoptions} />;
 
-  const AreaComponent = () => <Select options={Areaoptions} />;
+  const AreaComponent = () => <Select options={AllAreaoptions} />;
 
-  const [selected, setSelected] = useState([]);
+  //const [selected, setSelected] = useState([]);
+
+
+  
+
+
+
+  
 
   return (
     <div className="filter" id="divFilter">
@@ -111,9 +129,7 @@ export default function Filters() {
       <hr/>
       <br />
       <br />
-      {/* */}
-      
-      {/* */}
+
       <div className="relative flex flex-col break-words bg-dodgerblue w-full shadow-xl rounded-lg px-10">
         <h1 className="text-black mb-2 text-lg">Filter by Gender</h1>
         <div className = "w-full self-center">
@@ -122,7 +138,7 @@ export default function Filters() {
         <br />
 
         <h1 className="text-black mb-2 text-lg">Filter by City :</h1>
-        <CityComponent onChange={fetchdata()}/>
+        <CityComponent />
         <br />
 
 
@@ -150,7 +166,7 @@ export default function Filters() {
         <br />
         <hr />
         <br />
-        <center><button className="button button2" onClick={() => { fetchcity() }}>Apply</button></center>
+        <center><button className="button button2" >Apply</button></center>
         {/* <Button variant="contained" color="primary">
         Search
       </Button> */}
@@ -159,4 +175,6 @@ export default function Filters() {
     </div>
     </div>
   );
+    
 }
+

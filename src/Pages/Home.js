@@ -21,7 +21,7 @@ import React, {useState , useEffect} from "react";
 export default function Home() {
 
   const [cardData, setCardData] = useState([]);
-  console.log("Aniket");
+  // console.log("Aniket");
 
   const fetchdata = async () => {
       const res = await axios.get("http://localhost:5000/user/getAllPost")
