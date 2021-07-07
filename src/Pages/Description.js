@@ -3,6 +3,7 @@ import React, {useState, useEffect} from "react";
 import "../assets/styles/Carousel.css";
 import "../tailwind.css";
 import "../Shared/Cards/patternCss.css"
+import "../assets/styles/button.css";
 import DescriptionCard from "../Components/DescriptionCard";
 import axios from "axios";
 import CarouselComp from "../Components/CarouselComp/CarouselComp";
@@ -100,7 +101,7 @@ export default function Description() {
             {/* <ImageCarousel ImgUrl={value.ImgUrl} /> */}
             <CarouselComp ImgUrl={value.ImgUrl} />
             <DescriptionCard value={value}/>
-            <button type="button" onClick={() => { SendRequest() }}>Send Request</button>
+            <center><button className="button button2" onClick={() => { SendRequest() }}>Send Request</button></center>
         </section>
         
     </>

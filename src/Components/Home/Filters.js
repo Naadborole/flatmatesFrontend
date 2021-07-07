@@ -6,7 +6,7 @@ import "./styles.css";
 
 export default function Filters() {
   const Genderoptions = [
-    { label: "Both", value: "both" },
+    { label: "other", value: "other" },
     { label: "Male", value: "male" },
     { label: "Female", value: "female" },
   ];
@@ -32,6 +32,7 @@ export default function Filters() {
   const [selected, setSelected] = useState([]);
 
   return (
+    <div className="filter" id="divFilter">
     <div className="relative w-full px-5 border rounded-xl patternfilter pt-5">
       <center className="w-full mb-4">
         <div className="relative flex flex-col bg-cyan">
@@ -43,9 +44,12 @@ export default function Filters() {
         </div>
       </center>
       <hr/>
+      {/* */}
+      
+      {/* */}
       <div className="relative flex flex-col break-words bg-dodgerblue w-full shadow-xl rounded-lg px-10">
         <h1 className="text-white mb-2 text-lg">Filter by Gender</h1>
-        <div className = "w-4/12 self-center">
+        <div className = "w-6/12 self-center">
           <GenderComponent />
         </div>
         <br />
@@ -63,6 +67,7 @@ export default function Filters() {
       </Button> */}
         <div className="pb-20"> </div>
       </div>
+    </div>
     </div>
   );
 }
