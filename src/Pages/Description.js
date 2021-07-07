@@ -98,8 +98,8 @@ export default function Description() {
         
         <section className="relative w-full h-full py-10 min-h-screen patternbg">
             {/* <Carousel /> */}
-            {/* <ImageCarousel ImgUrl={value.ImgUrl} /> */}
-            <CarouselComp ImgUrl={value.ImgUrl} />
+            <ImageCarousel ImgUrl={value.ImgUrl} />
+            {/* <CarouselComp ImgUrl={value.ImgUrl} /> */}
             <DescriptionCard value={value}/>
             <center><button className="button button2" onClick={() => { SendRequest() }}>Send Request</button></center>
         </section>
