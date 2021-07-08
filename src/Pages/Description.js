@@ -1,5 +1,6 @@
 import app from "../firebase";
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import "../assets/styles/Carousel.css";
 import "../tailwind.css";
 import "../Shared/Cards/patternCss.css"
@@ -16,6 +17,7 @@ init("user_SmIBtduLIrhUgxxbogOxy");
 export default function Description() {
 
     const [value, setValue] = useState({ ImgUrl:[] });
+    const [pending, setPending] = useState(true);
     let senderEmail;
     let receiverEmail;
     let senderfn;
@@ -32,18 +34,25 @@ export default function Description() {
         const res = await axios.get("http://localhost:5000/user/getPost/" + id)
         console.log("res",res);
         setValue(res.data);
-
     }
 
-    
-
-    useEffect( () => {
+    useEffect(() => {
         fetchdata();
-      console.log("data changed");
-      
-  },[]);
+    },[])
+
+    useEffect( () => { 
+        console.log("value changed");
+        checkIfSame();
+  },[value]);
+
+  
   
   const [token, settoken] = useState("");
+
+//   useEffect(() => {
+//     console.log("token changed");
+//     console.log("token",token);
+// },[token]);
   
 
   const fetchUserbyid = async () => {
@@ -67,10 +76,29 @@ export default function Description() {
         
   }
 
-  const SendRequest = async (e) => {
-    // e.preventDefault();
+  const checkIfSame = async () => {
+
     await fetchUserbyid();
     await fetchUserbytoken();
+
+    console.log(senderEmail+ " " +receiverEmail);
+    if(senderEmail === receiverEmail)
+    {
+        document.getElementById("RequestButton").style.visibility = "hidden";
+    }
+
+  }
+
+  let history = useHistory();
+
+  const SendRequest = async (e) => {
+    // e.preventDefault();
+    // console.log("token",token);
+    // if(token === "")
+    // {
+    //     history.push("/login");
+    //     return;
+    // }
 
     try{
         const response = await send(
@@ -101,7 +129,7 @@ export default function Description() {
             <ImageCarousel ImgUrl={value.ImgUrl} />
             {/* <CarouselComp ImgUrl={value.ImgUrl} /> */}
             <DescriptionCard value={value}/>
-            <center><button className="button button2" onClick={() => { SendRequest() }}>Send Request</button></center>
+            <center><button className="button button2" id="RequestButton" onClick={() => { SendRequest() }}>Send Request</button></center>
         </section>
         
     </>

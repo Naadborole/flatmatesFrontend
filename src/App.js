@@ -13,6 +13,8 @@ import Test from "./Pages/Test";
 import ImgComp from "./Components/ImgComp";
 import CreatePost from "./Pages/CreatePost";
 import Description from "./Pages/Description"
+import MyPost from "./Pages/MyPost";
+import UpdatePost  from "./Pages/UpdatePost";
 // components
 
 function App() {
@@ -29,6 +31,8 @@ function App() {
         <Route path = "/ImgComp" exact component = {ImgComp}/>
         <Route path = "/CreatePost" exact component = {CreatePost}/>
         <Route path = "/Description/:id" exact component = {Description}/>
+        <Route path = "/MyPost" exact component = {MyPost}/>
+        <Route path = "/UpdatePost" exact component = {UpdatePost}/>
       </Switch>
     </Router>
     </AuthProvider>

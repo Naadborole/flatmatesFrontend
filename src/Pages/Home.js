@@ -31,6 +31,16 @@ export default function Home() {
   useEffect( () => {
     fetchdata();
   }, []);
+
+  const getfilteredData = (data) => {
+    console.log("data",data)
+    setCardData(data);
+  }
+
+  useEffect(()=>{
+    console.log("filtered data changed");
+    console.log("card data changed :",cardData);
+  },[cardData]);
   
   
 
@@ -56,7 +66,7 @@ export default function Home() {
 
           </div>
           <div className="relative w-full sm:w-4/12 ml-5">
-            <Filters></Filters>
+            <Filters getfilteredData = {getfilteredData}></Filters>
           </div>
         </div>
       </main>
