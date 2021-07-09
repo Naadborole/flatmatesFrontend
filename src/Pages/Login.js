@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import background from "../assets/img/register_bg_2.png";
 import { Link } from "react-router-dom";
 import app from "../firebase";
+import { useEffect } from "react";
+import { ForgotPassword } from "../Shared/ForgotPassword";
 
 export default function Login({history}) {
     const [user,setUser] = useState();
+    const [Email, setEmail] = useState('');
     //const user = app.auth().currentUser;
  
     const handleformSubmit = React.useCallback(
@@ -66,6 +69,8 @@ export default function Login({history}) {
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-md shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                         placeholder="Email"
                         name="email"
+                        id="Email"
+                        onChange={(e)=>{setEmail(e.target.value)}}
                       />
                     </div>
 
@@ -111,8 +116,9 @@ export default function Login({history}) {
                 <div className="w-1/2">
                   <a
                     href="#pablo"
-                    onClick={(e) => e.preventDefault()}
+                    onClick={()=> ForgotPassword(Email)}
                     className="text-blueGray-200"
+                    id="forgotpassword"
                   >
                     <small>Forgot password?</small>
                   </a>

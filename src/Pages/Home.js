@@ -22,13 +22,11 @@ import React, {useState , useEffect} from "react";
 export default function Home() {
 
   const [cardData, setCardData] = useState([]);
-  const [pending, setPending] = useState(true);
   // console.log("Aniket");
 
   const fetchdata = async () => {
       const res = await axios.get("http://localhost:5000/user/getAllPost")
       setCardData(res.data);
-      setPending(false);
   }  
   
   useEffect( () => {
@@ -40,25 +38,11 @@ export default function Home() {
     setCardData(data);
   }
 
-  // useEffect(() => {
-  //   console.log("pending done!");
-  // },[pending]);
-
   useEffect(()=>{
     console.log("filtered data changed");
     console.log("card data changed :",cardData);
   },[cardData]);
   
-  // if (pending) {
-  //   return  (
-  //       <center><ReactLoading
-  //         type={"spokes"}
-  //         color={"#00008B"}
-  //         height={30}
-  //         width={30}
-  //       /></center>
-  //     );
-  // }
 
   return (
     <div>

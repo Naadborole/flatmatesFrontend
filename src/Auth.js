@@ -17,13 +17,11 @@ export const AuthProvider = ({ children }) => {
 
   if (pending) {
     return (
-   
         <ReactLogo  Style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
       }}/>
-        
     );
   }
 

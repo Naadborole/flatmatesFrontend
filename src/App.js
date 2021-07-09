@@ -15,6 +15,7 @@ import CreatePost from "./Pages/CreatePost";
 import Description from "./Pages/Description"
 import MyPost from "./Pages/MyPost";
 import UpdatePost  from "./Pages/UpdatePost";
+import MyProfile from "./Pages/MyProfile";
 // components
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
         <Route path = "/Description/:id" exact component = {Description}/>
         <Route path = "/MyPost" exact component = {MyPost}/>
         <Route path = "/UpdatePost" exact component = {UpdatePost}/>
+        <Route path = "/MyProfile" exact component = {MyProfile}/>
       </Switch>
     </Router>
     </AuthProvider>
