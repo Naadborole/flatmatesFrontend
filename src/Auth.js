@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import app from "./firebase";
+import {ReactComponent as ReactLogo} from './assets/img/loading.svg';
 
 export const AuthContext = React.createContext();
 
@@ -15,7 +16,15 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   if (pending) {
-    return <>Loading...</>;
+    return (
+   
+        <ReactLogo  Style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+      }}/>
+        
+    );
   }
 
   return (
