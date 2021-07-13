@@ -1,7 +1,10 @@
 import axios from "axios";
 import React , {useState} from "react";
+import { useEffect } from "react";
 import ImgComp from "../Components/ImgComp";
 import app from "../firebase";
+import { useHistory } from 'react-router';
+
 
 export default function CreatePost() {
 
@@ -14,19 +17,88 @@ export default function CreatePost() {
     const [addressline1, setAddressline1] = useState('');
     const [rent, setRent] = useState();
     const [profession, setProfession] = useState('');
+    const [postalCode, setpostalCode] = useState('');
+    const [STATE, setSTATE] = useState('');
 
     const [fileUrl, setFileUrl] = useState([]);
 
     const [token, settoken] = useState("");
+    const [pending, setPending] = useState(true);
+
+    let history = useHistory();
+
+   
+
+    useEffect( () => {
+      gettoken();
+      console.log("hehehehe"); 
+    },[]);
+
+    useEffect(() => {
+      funcName("https://api.postalpincode.in/pincode/" + postalCode);
+    },[postalCode])
+
+    const funcName = async (url) => {
+      try{
+        const response = await axios.get(url);
+        //var data = await response.json();
+        console.log("city and state", response.data[0].PostOffice[0].District, response.data[0].PostOffice[0].State);
+        setCity(response.data[0].PostOffice[0].District);
+        setSTATE(response.data[0].PostOffice[0].State);
+        if(postalCode.length === 6)
+          document.getElementById("length6").style.display = "none";
+      }
+      catch(err)
+      {
+        if(postalCode.length === 6)
+        {  
+          if(err)
+          {
+            console.log("ignore err",err);
+            alert("Enter correct postal code");
+            setCity('');
+            setSTATE('');
+          }
+        }
+        else
+        {
+          console.log(postalCode.length);
+          document.getElementById("length6").style.display = "initial";
+          setCity('');
+          setSTATE('');
+        }
+      }
+    }
 
     const getImgUrl = (data) => {
         console.log("data",data)
         setFileUrl(data);
     }
 
+    const gettoken = async () => {
+      try{
+        const tokens = await app.auth().currentUser.getIdToken(true);
+        //console.log("token : ",tokens);
+        settoken(tokens);
+        //setPending(false);
+      }
+      catch(err)
+      {
+        console.log("err",err);
+        console.log("token is null bhailog!");
+        alert("Please login first!");
+        history.push("/Login");
+        return;
+      }
+    }
+
     const creation = async () => {
-        const token = await app.auth().currentUser.getIdToken(true);
-        settoken(token);
+
+        if(fileUrl.length === 0)
+        {
+          alert("Please Upload atleast one image!");
+          return;
+        }
 
          await axios.post("http://localhost:5000/user/createPost", {
             Post : {
@@ -183,7 +255,7 @@ export default function CreatePost() {
                             className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                             htmlFor="grid-password"
                           >
-                            Address line 1
+                            Area
                           </label>
                           <input
                             type="text"
@@ -199,7 +271,7 @@ export default function CreatePost() {
                             className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                             htmlFor="grid-password"
                           >
-                            Address line 2
+                            Address line
                           </label>
                           <input
                             type="text"
@@ -219,8 +291,10 @@ export default function CreatePost() {
                           <input
                             type="text"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                            defaultValue="New York"
-                            onChange={(e)=>{setCity(e.target.value)}}
+                            //defaultValue="City"
+                            value={city}
+                            //onChange={(e)=>{setCity(e.target.value)}}
+                            readOnly
                           />
                         </div>
                       </div>
@@ -235,8 +309,16 @@ export default function CreatePost() {
                           <input
                             type="text"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                            defaultValue="Postal Code"
+                            defaultValue="XXXXXX"
+                            onChange={(e)=>{setpostalCode(e.target.value)}}
                           />
+                          <br />
+                          <label
+                            id="length6"
+                            style={{color : "red" , fontSize : "12px"}}
+                          >
+                            *Length of postal code should be 6!
+                          </label>
                         </div>
                       </div>
                       <div className="w-full lg:w-6/12 px-4">
@@ -250,7 +332,9 @@ export default function CreatePost() {
                           <input
                             type="text"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                            defaultValue="New York"
+                            //defaultValue="State"
+                            value={STATE}
+                            readOnly
                           />
                         </div>
                       </div>
@@ -265,7 +349,8 @@ export default function CreatePost() {
                           <input
                             type="text"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                            defaultValue="United States"
+                            defaultValue="India"
+                            readOnly
                           />
                         </div>
                       </div>

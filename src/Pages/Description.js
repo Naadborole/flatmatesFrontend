@@ -18,11 +18,17 @@ export default function Description() {
 
     const [value, setValue] = useState({ ImgUrl:[] });
     const [pending, setPending] = useState(true);
-    let senderEmail;
-    let receiverEmail;
-    let senderfn;
-    let senderln;
-    let sendermn;
+    const [senderEmail, setSenderEmail] = useState('');
+    const [receiverEmail, setReceiverEmail] = useState('');
+    const [senderfn, setSenderfn] = useState('');
+    const [senderln, setSenderln] = useState('');
+    const [sendermn, setSendermn] = useState(true);
+    //let senderEmail;
+    //let receiverEmail;
+    // let senderfn;
+    // let senderln;
+    // let sendermn;
+    let history = useHistory();
 
     console.log("Rathod");
     const fetchdata = async () => {
@@ -42,8 +48,13 @@ export default function Description() {
 
     useEffect( () => { 
         console.log("value changed");
-        checkIfSame();
+        fetchonly()
+        //checkIfSame();
   },[value]);
+
+    useEffect( () => {
+        checkIfSame()
+    },[pending])
 
   
   
@@ -58,10 +69,12 @@ export default function Description() {
   const fetchUserbyid = async () => {
     const res = await axios.get("http://localhost:5000/user/getUserid/" + value.uid)
     console.log("res",res.data);
-    receiverEmail = res.data.email;    
+    setReceiverEmail(res.data.email);
+    // receiverEmail = res.data.email;    
   }
 
   const fetchUserbytoken = async () => {
+      try{
         const token = await app.auth().currentUser.getIdToken(true);
         settoken(token);
 
@@ -69,27 +82,39 @@ export default function Description() {
             token : token
         })
         console.log("res2",res2.data);
-        senderEmail = res2.data.email;
-        senderfn = res2.data.firstname;
-        senderln = res2.data.lastname;
-        sendermn = res2.data.MobileNumber;
+        setSenderEmail(res2.data.email);
+        setSenderfn(res2.data.firstname);
+        setSenderln(res2.data.lastname);
+        setSendermn(res2.data.MobileNumber);
+        setPending(false);
+        // senderEmail = res2.data.email;
+        // senderfn = res2.data.firstname;
+        // senderln = res2.data.lastname;
+        // sendermn = res2.data.MobileNumber;
+      }  
+      catch(err){
+          console.log("err",err);
+      }
         
+  }
+
+  const fetchonly = async () => {
+    await fetchUserbyid();
+    await fetchUserbytoken();
   }
 
   const checkIfSame = async () => {
 
-    await fetchUserbyid();
-    await fetchUserbytoken();
-
     console.log(senderEmail+ " " +receiverEmail);
-    if(senderEmail === receiverEmail)
+    if(senderEmail === receiverEmail && senderEmail !== "" && receiverEmail !== "")
     {
+        console.log(senderEmail+ "hello inside" +receiverEmail);
         document.getElementById("RequestButton").style.visibility = "hidden";
     }
 
   }
 
-  let history = useHistory();
+  
 
   const SendRequest = async (e) => {
     // e.preventDefault();
@@ -101,6 +126,13 @@ export default function Description() {
     // }
 
     try{
+        if(token === "")
+        {
+            alert("Please login first!");
+            history.push("/Login");
+            return;
+        }
+        console.log(senderEmail+ " " +receiverEmail);
         const response = await send(
             'service_x0m61ql',
             'template_0r5dkul',

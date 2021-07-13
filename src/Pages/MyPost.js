@@ -39,8 +39,24 @@ export default function MyPost(props) {
         });
     };
 
+    const deleteImage = async (id) => {
+      cardData.map((data) => {
+        if(data.pid === id)
+        {
+          data.ImgUrl.map((url) => {
+            let temp = app.storage();
+            let pictureRef = temp.refFromURL(url);
+            pictureRef.delete()
+            console.log("image deleted from bucket!");
+          });
+        }
+      })
+
+    }
+
     const handleDelete = async (id) => {
         console.log("In Delete",id);
+        deleteImage(id);
         const res = await axios.delete("http://localhost:5000/user/deletePost/" + id);
         alert(res.data);
         window.location.reload();
