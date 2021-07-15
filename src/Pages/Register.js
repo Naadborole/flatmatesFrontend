@@ -2,6 +2,7 @@ import React, { useState} from "react";
 import background from "../assets/img/register_bg_2.png";
 import app from "../firebase";
 import axios from "axios";
+import {validateSignupData} from "../Shared/Validation/validation";
 
 export default function Register() {
 
@@ -21,9 +22,45 @@ export default function Register() {
   const [postalCode, setPostalCode] = useState('');
   //const [userID, setUserID] = useState('abcd');
   let temp;
+
   
   const signup = async ()=>{
 
+      let obj = {
+        email:email,
+        password:password,
+        MobileNumber: MobileNumber
+      };
+      console.log(obj);
+      
+
+      const check = validateSignupData(obj);
+
+      if(!check.valid)
+      {
+        let str ="";
+        console.log("In check", check);
+        if(check.errors.email != null)
+        {
+          str+=check.errors.email + "\n";
+        }
+        if(check.errors.password != null)
+        {
+          str+=check.errors.password + "\n";
+        }
+        if(check.errors.MobileNumber != null)
+        {
+          str+=check.errors.MobileNumber;
+        }
+
+        if(str !== null && str!== "" && str!== "undefined"){
+          alert(str);
+        }
+          
+
+        return;
+      }
+      
       await app.auth().createUserWithEmailAndPassword(email , password)
       .then((userCredential)=>{
           // send verification mail.
@@ -99,6 +136,7 @@ export default function Register() {
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                             defaultValue=""
                             onChange={(e)=>{setfirstname(e.target.value)}}
+                            required
                           />
                         </div>
                       </div>
@@ -115,6 +153,7 @@ export default function Register() {
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                             defaultValue=""
                             onChange={(e)=>{setlastname(e.target.value)}}
+                            required
                           />
                         </div>
                       </div>
@@ -132,6 +171,7 @@ export default function Register() {
                             defaultValue=""
                             name="username"
                             onChange={(e)=>{setUsername(e.target.value)}}
+                            required
                           />
                         </div>
                       </div>
@@ -147,6 +187,7 @@ export default function Register() {
                             type="date"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                             onChange={(e)=>{setDOB(e.target.value)}}
+                            required
                           />
                         </div>
                       </div>
@@ -215,6 +256,7 @@ export default function Register() {
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                             defaultValue="gender"
                             onChange={(e)=>{setGender(e.target.value)}}
+                            required
                           />
                         </div>
                       </div>
@@ -238,6 +280,7 @@ export default function Register() {
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                             defaultValue="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
                             onChange={(e)=>{setAddressline1(e.target.value)}}
+                            required
                           />
                         </div>
                       </div>
@@ -254,6 +297,7 @@ export default function Register() {
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                             defaultValue="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
                             onChange={(e)=>{setAddressline2(e.target.value)}}
+                            required
                           />
                         </div>
                       </div>
@@ -286,6 +330,7 @@ export default function Register() {
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                             defaultValue="Postal Code"
                             onChange={(e)=>{setPostalCode(e.target.value)}}
+                            oninvalid="alert('You must fill out the postal code!');" required
                           />
                         </div>
                       </div>
