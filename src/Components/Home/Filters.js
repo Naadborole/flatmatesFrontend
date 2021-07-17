@@ -11,9 +11,9 @@ import ReactLoading from "react-loading";
 export default function Filters(props) {
   
   const Genderoptions = [
-    { label: "other", value: "other" },
     { label: "Male", value: "male" },
     { label: "Female", value: "female" },
+    { label: "other", value: "other" },
   ];
 
   const Rentoptions = [

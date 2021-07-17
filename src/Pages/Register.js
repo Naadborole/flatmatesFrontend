@@ -1,8 +1,9 @@
-import React, { useState} from "react";
+import React, { useState , useEffect} from "react";
 import background from "../assets/img/register_bg_2.png";
 import app from "../firebase";
 import axios from "axios";
-import {validateSignupData} from "../Shared/Validation/validation";
+import {ValidateSignupData} from "../Shared/Validation/validation";
+import Select from "react-select";
 
 export default function Register() {
 
@@ -12,16 +13,57 @@ export default function Register() {
   const [lastname, setlastname] = useState('');
   const [username, setUsername] = useState('');
   const [DOB, setDOB] = useState('');
-  const [MobileNumber, setMobileNumber] = useState();
+  const [MobileNumber, setMobileNumber] = useState(0);
   const [city, setCity] = useState('');
   const [addressline1, setAddressline1] = useState('');
   const [gender , setGender] = useState('');
   const [addressline2, setAddressline2] = useState('');
   const [state, setState] = useState('');
-  const [country, setCountry] = useState('');
+  const [country, setCountry] = useState('India');
   const [postalCode, setPostalCode] = useState('');
+  const Genderoptions = [
+    { label: "Male", value: "male" },
+    { label: "Female", value: "female" },
+    { label: "other", value: "other" },
+  ];
   //const [userID, setUserID] = useState('abcd');
   let temp;
+
+  useEffect(() => {
+    funcName("https://api.postalpincode.in/pincode/" + postalCode);
+  },[postalCode])
+
+  const funcName = async (url) => {
+    try{
+      const response = await axios.get(url);
+      //var data = await response.json();
+      console.log("city and state", response.data[0].PostOffice[0].District, response.data[0].PostOffice[0].State);
+      setCity(response.data[0].PostOffice[0].District);
+      setState(response.data[0].PostOffice[0].State);
+      if(postalCode.length === 6)
+        document.getElementById("length6").style.display = "none";
+    }
+    catch(err)
+    {
+      if(postalCode.length === 6)
+      {  
+        if(err)
+        {
+          console.log("ignore err",err);
+          alert("Enter correct postal code");
+          setCity('');
+          setState('');
+        }
+      }
+      else
+      {
+        console.log(postalCode.length);
+        document.getElementById("length6").style.display = "initial";
+        setCity('');
+        setState('');
+      }
+    }
+  }
 
   
   const signup = async ()=>{
@@ -29,35 +71,68 @@ export default function Register() {
       let obj = {
         email:email,
         password:password,
-        MobileNumber: MobileNumber
+        MobileNumber: MobileNumber,
+        first_name: firstname,
+        last_name: lastname,
+        user_name: username,
+        dob: DOB,
+        gender: gender,
+        postalCode: postalCode
       };
       console.log(obj);
       
-
-      const check = validateSignupData(obj);
+      const check = ValidateSignupData(obj);
 
       if(!check.valid)
       {
         let str ="";
         console.log("In check", check);
+
         if(check.errors.email != null)
         {
-          str+=check.errors.email + "\n";
-        }
-        if(check.errors.password != null)
-        {
-          str+=check.errors.password + "\n";
-        }
-        if(check.errors.MobileNumber != null)
-        {
-          str+=check.errors.MobileNumber;
+          document.getElementById("emailaddr").innerHTML = check.errors.email;
+          document.getElementById("emailaddr").style.display = "initial";
+          //str+=check.errors.email + "\n";
         }
 
-        if(str !== null && str!== "" && str!== "undefined"){
-          alert(str);
+        if(check.errors.password != null)
+        {
+          document.getElementById("passw").innerHTML = check.errors.password;
+          document.getElementById("passw").style.display = "initial";
+          // str+=check.errors.password + "\n";
+        }
+          
+        if(check.errors.MobileNumber != null)
+        {
+          document.getElementById("mobileno").innerHTML = check.errors.MobileNumber;
+          document.getElementById("mobileno").style.display = "initial";
+          // str+=check.errors.MobileNumber;
         }
           
 
+        if(check.errors.first_name != null){
+          document.getElementById("firstname").style.display = "initial";
+          console.log("inside firstname")
+        }
+
+        if(check.errors.last_name != null)
+          document.getElementById("lastname").style.display = "initial";
+
+        if(check.errors.user_name != null)
+          document.getElementById("UserName").style.display = "initial";
+
+        if(check.errors.dob != null)
+          document.getElementById("dob").style.display = "initial";
+
+        if(check.errors.gender != null)
+          document.getElementById("gender").style.display = "initial";
+
+        if(check.errors.postalCode != null)
+          document.getElementById("length6").style.display = "initial";
+
+        if(str !== null && str!== "" /*&& str!== "undefined"*/){
+          alert(str);
+        }
         return;
       }
       
@@ -95,6 +170,18 @@ export default function Register() {
         uid : temp
       });
   }
+
+  const removeWarning = (id) => {
+    console.log("id",id);
+    if(id !== null)
+      document.getElementById(id).style.display = "none";
+  }
+
+ const forGender = (e) => {
+   setGender(e.value)
+   removeWarning("gender");
+ }
+
 
 
 
@@ -136,8 +223,15 @@ export default function Register() {
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                             defaultValue=""
                             onChange={(e)=>{setfirstname(e.target.value)}}
+                            onKeyUp={()=>{removeWarning("firstname")}}
                             required
                           />
+                          <label
+                            id="firstname"
+                            style={{color : "red" , fontSize : "12px" , display : "none"}}
+                          >
+                            *This field should not be empty!
+                          </label>
                         </div>
                       </div>
                       <div className="w-full lg:w-6/12 px-4">
@@ -153,8 +247,15 @@ export default function Register() {
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                             defaultValue=""
                             onChange={(e)=>{setlastname(e.target.value)}}
+                            onKeyUp={()=>{removeWarning("lastname")}}
                             required
                           />
+                          <label
+                            id="lastname"
+                            style={{color : "red" , fontSize : "12px" , display : "none"}}
+                          >
+                            *This field should not be empty!
+                          </label>
                         </div>
                       </div>
                       <div className="w-full lg:w-6/12 px-4">
@@ -171,8 +272,15 @@ export default function Register() {
                             defaultValue=""
                             name="username"
                             onChange={(e)=>{setUsername(e.target.value)}}
+                            onKeyUp={()=>{removeWarning("UserName")}}
                             required
                           />
+                          <label
+                            id="UserName"
+                            style={{color : "red" , fontSize : "12px" , display : "none"}}
+                          >
+                            *This field should not be empty!
+                          </label>
                         </div>
                       </div>
                       <div className="w-full lg:w-6/12 px-4">
@@ -187,8 +295,15 @@ export default function Register() {
                             type="date"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                             onChange={(e)=>{setDOB(e.target.value)}}
+                            onSelect={()=>{removeWarning("dob")}}
                             required
                           />
+                          <label
+                            id="dob"
+                            style={{color : "red" , fontSize : "12px" , display : "none"}}
+                          >
+                            *This field should not be empty!
+                          </label>
                         </div>
                       </div>
                       
@@ -206,7 +321,14 @@ export default function Register() {
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                             defaultValue="jesse@example.com"
                             onChange={(e)=>{setemail(e.target.value)}}
+                            onKeyUp={()=>{removeWarning("emailaddr")}}
                           />
+                          <label
+                            id="emailaddr"
+                            style={{color : "red" , fontSize : "12px" , display : "none"}}
+                          >
+                            *This field should not be empty!
+                          </label>
                         </div>
                       </div>
                       <div className="w-full lg:w-6/12 px-4">
@@ -222,7 +344,14 @@ export default function Register() {
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                             defaultValue="password"
                             onChange={(e)=>{setpassword(e.target.value)}}
+                            onKeyUp={()=>{removeWarning("passw")}}
                           />
+                          <label
+                            id="passw"
+                            style={{color : "red" , fontSize : "12px" , display : "none"}}
+                          >
+                            *This field should not be empty!
+                          </label>
                         </div>
                       </div>
 
@@ -238,9 +367,16 @@ export default function Register() {
                           <input
                             type="tel"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                            defaultValue="mobile number"
+                            defaultValue="Mobile Number"
                             onChange={(e)=>{setMobileNumber(e.target.value)}}
+                            onKeyUp={()=>{removeWarning("mobileno")}}
                           />
+                          <label
+                            id="mobileno"
+                            style={{color : "red" , fontSize : "12px" , display : "none"}}
+                          >
+                            *This field should not be empty!
+                          </label>
                         </div>
                       </div>
                       <div className="w-full lg:w-6/12 px-4">
@@ -251,13 +387,24 @@ export default function Register() {
                           >
                             Gender
                           </label>
-                          <input
+                          {/* <input
                             type="text"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                             defaultValue="gender"
                             onChange={(e)=>{setGender(e.target.value)}}
                             required
+                          /> */}
+                          <Select 
+                            //onChange={(e)=>{setGender(e.value)}  ()=>{removeWarning("gender")}} 
+                            onChange={(e)=>{forGender(e)}}
+                            options={Genderoptions} value={Genderoptions.filter(function(option) {return option.value === gender})}
                           />
+                          <label
+                            id="gender"
+                            style={{color : "red" , fontSize : "12px" , display : "none"}}
+                          >
+                            *This field should not be empty!
+                          </label>
                         </div>
                       </div>
 
@@ -313,7 +460,9 @@ export default function Register() {
                             type="text"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                             defaultValue="New York"
-                            onChange={(e)=>{setCity(e.target.value)}}
+                            //onChange={(e)=>{setCity(e.target.value)}}
+                            value={city}
+                            readOnly
                           />
                         </div>
                       </div>
@@ -328,10 +477,16 @@ export default function Register() {
                           <input
                             type="text"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                            defaultValue="Postal Code"
+                            defaultValue=""
                             onChange={(e)=>{setPostalCode(e.target.value)}}
-                            oninvalid="alert('You must fill out the postal code!');" required
+                            required
                           />
+                          <label
+                            id="length6"
+                            style={{color : "red" , fontSize : "12px" , display : "none"}}
+                          >
+                            *Length of postal code should be 6!
+                          </label>
                         </div>
                       </div>
                       <div className="w-full lg:w-6/12 px-4">
@@ -345,8 +500,10 @@ export default function Register() {
                           <input
                             type="text"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                            defaultValue="New York"
-                            onChange={(e)=>{setState(e.target.value)}}
+                            defaultValue="Texas"
+                            //onChange={(e)=>{setState(e.target.value)}}
+                            value={state}
+                            readOnly
                           />
                         </div>
                       </div>
@@ -361,8 +518,9 @@ export default function Register() {
                           <input
                             type="text"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                            defaultValue="United States"
+                            defaultValue="India"
                             onChange={(e)=>{setCountry(e.target.value)}}
+                            readOnly
                           />
                         </div>
                       </div>

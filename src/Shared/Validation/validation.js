@@ -5,29 +5,37 @@ const isEmail = (email) => {
   };
   
   const isEmpty = (string) => {
-    if (string === '') return true;
+    if (string/*.trim()*/ === '') return true;
     else return false;
   };
-  
-  exports.validateSignupData = (data) => {
+
+  exports.ValidateSignupData = (data) => {
     let errors = {};
     
     console.log(data);
     if (isEmpty(data.email)) {
-      errors.email = 'Must not be empty';
+      errors.email = '*This field should not be empty!';
     } else if (!isEmail(data.email)) {
-      errors.email = 'Must be a valid email address';
+      errors.email = 'Must be a valid email address.';
     }
-  
-    if (isEmpty(data.password)) errors.password = 'Must not be empty';
+    
+    if(isEmpty(data.first_name)) errors.first_name = '*This field should not be empty!';
+    if(isEmpty(data.last_name)) errors.last_name = '*This field should not be empty!';
+    if(isEmpty(data.user_name)) errors.user_name = '*This field should not be empty!';
+    if(isEmpty(data.dob)) errors.dob = '*This field should not be empty!';
+    if(isEmpty(data.gender)) errors.gender = '*This field should not be empty!';
+    if(isEmpty(data.postalCode)) errors.postalCode = '*This field should not be empty!';
+    //if (isEmpty(data.password)) errors.password = 'Must not be empty.';
+
+    if(data.password.length < 8) errors.password = 'Password must be atleast 8 characters long.';
+    
     // if (data.password !== data.confirmPassword)
     //   errors.confirmPassword = 'Passwords must match';
-    if (isEmpty(data.handle)) errors.handle = 'Must not be empty';
 
-    if(data.MobileNumber.length != 10)
-    {
-        errors.MobileNumber = 'Mobile Number should be 10 digits only';
-    }
+    //if (isEmpty(data.handle)) errors.handle = 'Must not be empty.';
+
+    if(data.MobileNumber.length !== 10)
+        errors.MobileNumber = 'Mobile Number should be 10 digits only.';
   
     return {
       errors,
@@ -35,14 +43,14 @@ const isEmail = (email) => {
     };
   };
   
-  exports.validateLoginData = (data) => {
-    let errors = {};
+  // exports.validateLoginData = (data) => {
+  //   let errors = {};
   
-    if (isEmpty(data.email)) errors.email = 'Must not be empty';
-    if (isEmpty(data.password)) errors.password = 'Must not be empty';
+  //   if (isEmpty(data.email)) errors.email = 'Must not be empty';
+  //   if (isEmpty(data.password)) errors.password = 'Must not be empty';
   
-    return {
-      errors,
-      valid: Object.keys(errors).length === 0 ? true : false
-    };
-  };
+  //   return {
+  //     errors,
+  //     valid: Object.keys(errors).length === 0 ? true : false
+  //   };
+  // };
