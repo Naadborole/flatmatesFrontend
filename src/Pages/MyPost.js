@@ -13,8 +13,10 @@ export default function MyPost(props) {
 
     const [cardData, setCardData] = useState([]);
     const [token, settoken] = useState("");
+    let history = useHistory();
 
     const fetchdata = async () => {
+      try{
         const token = await app.auth().currentUser.getIdToken(true);
         settoken(token);
 
@@ -23,13 +25,19 @@ export default function MyPost(props) {
         });
         console.log("res.data",res.data);
         setCardData(res.data)
+      }
+      catch(err)
+      {
+        alert("Please login first!");
+        history.push('/Login');
+      } 
     }  
     
     useEffect( () => {
       fetchdata();
     }, []);
 
-    let history = useHistory();
+    
 
     const handleEdit = (data) => {
         console.log("In Edit",data);

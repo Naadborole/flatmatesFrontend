@@ -6,6 +6,10 @@ import React, { useEffect, useState , useRef } from "react";
 export default function ImageCarousel(props) {
 
   console.log("propsImgUrl",props.ImgUrl)
+  if(props.ImgUrl.length === 0)
+  {
+    props.ImgUrl.push("http://via.placeholder.com/300")
+  }
 
   const check = useRef(false);
 

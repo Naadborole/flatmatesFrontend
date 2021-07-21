@@ -4,6 +4,9 @@ import { useEffect } from "react";
 import ImgComp from "../Components/ImgComp";
 import app from "../firebase";
 import { useHistory } from 'react-router';
+import { useRef } from "react";
+import Select from "react-select";
+import {ValidateSignupData} from "../Shared/Validation/validation2";
 
 
 export default function CreatePost() {
@@ -15,7 +18,8 @@ export default function CreatePost() {
     const [description, setDescription] = useState('');
     const [city, setCity] = useState('');
     const [addressline1, setAddressline1] = useState('');
-    const [rent, setRent] = useState();
+    const [addressline2, setAddressline2] = useState('');
+    const [rent, setRent] = useState(0);
     const [profession, setProfession] = useState('');
     const [postalCode, setpostalCode] = useState('');
     const [STATE, setSTATE] = useState('');
@@ -25,8 +29,15 @@ export default function CreatePost() {
     const [token, settoken] = useState("");
     const [pending, setPending] = useState(true);
 
+    const check = useRef(true);
+
     let history = useHistory();
 
+    const Genderoptions = [
+      { label: "Male", value: "male" },
+      { label: "Female", value: "female" },
+      { label: "other", value: "other" },
+    ];
    
 
     useEffect( () => {
@@ -35,7 +46,10 @@ export default function CreatePost() {
     },[]);
 
     useEffect(() => {
-      funcName("https://api.postalpincode.in/pincode/" + postalCode);
+      if(!check.current)
+        funcName("https://api.postalpincode.in/pincode/" + postalCode);
+      else  
+        check.current = false;
     },[postalCode])
 
     const funcName = async (url) => {
@@ -94,6 +108,69 @@ export default function CreatePost() {
 
     const creation = async () => {
 
+      let obj = {
+        first_name: firstname,
+        last_name: lastname,
+        gender: gender,
+        postalCode: postalCode,
+        area: addressline1,
+        addressline: addressline2,
+        vacancy: vacancy,
+        rent: rent,
+        profession: profession,
+        description: description,
+      };
+      console.log(obj);
+      
+      const check = ValidateSignupData(obj);
+
+      if(!check.valid)
+      {
+        let str ="";
+        console.log("In check", check);
+
+        if(check.errors.vacancy != null)
+          document.getElementById("vacancy").style.display = "initial";
+          //str+=check.errors.email + "\n";
+
+        if(check.errors.rent != null)
+          document.getElementById("rent").style.display = "initial";
+          // str+=check.errors.password + "\n";
+          
+        if(check.errors.profession != null)
+          document.getElementById("profession").style.display = "initial";
+          // str+=check.errors.MobileNumber;
+          
+
+        if(check.errors.first_name != null){
+          document.getElementById("firstname").style.display = "initial";
+          console.log("inside firstname")
+        }
+
+        if(check.errors.last_name != null)
+          document.getElementById("lastname").style.display = "initial";
+
+        if(check.errors.description != null)
+          document.getElementById("description").style.display = "initial";
+
+        if(check.errors.gender != null)
+          document.getElementById("gender").style.display = "initial";
+
+        if(check.errors.postalCode != null)
+          document.getElementById("length6").style.display = "initial";
+        
+        if(check.errors.area != null)
+          document.getElementById("area").style.display = "initial";
+
+        if(check.errors.addressline != null)
+          document.getElementById("addrline").style.display = "initial";
+
+        if(str !== null && str!== "" /*&& str!== "undefined"*/){
+          alert(str);
+        }
+        return;
+      }
+
         if(fileUrl.length === 0)
         {
           alert("Please Upload atleast one image!");
@@ -111,16 +188,30 @@ export default function CreatePost() {
                 addressline1 : addressline1,
                 rent : rent,
                 profession : profession,
-                ImgUrl : fileUrl
+                ImgUrl : fileUrl,
+                addressline2 : addressline2,
+                state : STATE,
+                postalCode : postalCode,
+                country : "India"
             },
             token : token
         })
         .then(res =>{
             alert(res.data);
+            history.push('/home');
         });
     } 
 
-    
+    const removeWarning = (id) => {
+      console.log("id",id);
+      if(id !== null)
+        document.getElementById(id).style.display = "none";
+    }
+
+    const forGender = (e) => {
+      setGender(e.value)
+      removeWarning("gender");
+    }
 
 
     return(
@@ -142,7 +233,7 @@ export default function CreatePost() {
                     </h6>
                     <div className="flex flex-wrap">
                     <div className="w-full lg:w-6/12 px-4">
-                        <div className="relative w-full mb-3">
+                      <div className="relative w-full mb-3">
                           <label
                             className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                             htmlFor="grid-password"
@@ -152,9 +243,17 @@ export default function CreatePost() {
                           <input
                             type="text"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                            defaultValue=""
+                            placeholder=""
                             onChange={(e)=>{setfirstname(e.target.value)}}
+                            onKeyUp={()=>{removeWarning("firstname")}}
+                            required
                           />
+                          <label
+                            id="firstname"
+                            style={{color : "red" , fontSize : "12px" , display : "none"}}
+                          >
+                            *This field should not be empty!
+                          </label>
                         </div>
                       </div>
                       <div className="w-full lg:w-6/12 px-4">
@@ -168,9 +267,17 @@ export default function CreatePost() {
                           <input
                             type="text"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                            defaultValue=""
+                            placeholder=""
                             onChange={(e)=>{setlastname(e.target.value)}}
+                            onKeyUp={()=>{removeWarning("lastname")}}
+                            required
                           />
+                          <label
+                            id="lastname"
+                            style={{color : "red" , fontSize : "12px" , display : "none"}}
+                          >
+                            *This field should not be empty!
+                          </label>
                         </div>
                       </div>
 
@@ -187,24 +294,43 @@ export default function CreatePost() {
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                             defaultValue="vacancy"
                             onChange={(e)=>{setVacancy(e.target.value)}}
+                            onKeyUp={()=>{removeWarning("vacancy")}}
                           />
+                          <label
+                            id="vacancy"
+                            style={{color : "red" , fontSize : "12px" , display : "none"}}
+                          >
+                            *This field should not be empty!
+                          </label>
                         </div>
                       </div>
 
                       <div className="w-full lg:w-6/12 px-4">
-                        <div className="relative w-full mb-3">
+                      <div className="relative w-full mb-3">
                           <label
                             className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                             htmlFor="grid-password"
                           >
                             Gender
                           </label>
-                          <input
+                          {/* <input
                             type="text"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                             defaultValue="gender"
                             onChange={(e)=>{setGender(e.target.value)}}
+                            required
+                          /> */}
+                          <Select 
+                            //onChange={(e)=>{setGender(e.value)}  ()=>{removeWarning("gender")}} 
+                            onChange={(e)=>{forGender(e)}}
+                            options={Genderoptions} value={Genderoptions.filter(function(option) {return option.value === gender})}
                           />
+                          <label
+                            id="gender"
+                            style={{color : "red" , fontSize : "12px" , display : "none"}}
+                          >
+                            *This field should not be empty!
+                          </label>
                         </div>
                       </div>
 
@@ -221,7 +347,14 @@ export default function CreatePost() {
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                             defaultValue="rent"
                             onChange={(e)=>{setRent(e.target.value)}}
+                            onKeyUp={()=>{removeWarning("rent")}}
                           />
+                          <label
+                            id="rent"
+                            style={{color : "red" , fontSize : "12px" , display : "none"}}
+                          >
+                            *This field should not be empty!
+                          </label>
                         </div>
                       </div>
 
@@ -238,7 +371,14 @@ export default function CreatePost() {
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                             defaultValue="profession"
                             onChange={(e)=>{setProfession(e.target.value)}}
+                            onKeyUp={()=>{removeWarning("profession")}}
                           />
+                          <label
+                            id="profession"
+                            style={{color : "red" , fontSize : "12px" , display : "none"}}
+                          >
+                            *This field should not be empty!
+                          </label>
                         </div>
                       </div>
                       
@@ -250,7 +390,7 @@ export default function CreatePost() {
                     </h6>
                     <div className="flex flex-wrap">
                       <div className="w-full lg:w-12/12 px-4">
-                        <div className="relative w-full mb-3">
+                      <div className="relative w-full mb-3">
                           <label
                             className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                             htmlFor="grid-password"
@@ -260,24 +400,41 @@ export default function CreatePost() {
                           <input
                             type="text"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                            defaultValue="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
+                            placeholder="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
                             onChange={(e)=>{setAddressline1(e.target.value)}}
+                            onKeyUp={()=>{removeWarning("area")}}
+                            required
                           />
+                          <label
+                            id="area"
+                            style={{color : "red" , fontSize : "12px" , display : "none"}}
+                          >
+                            *This field should not be empty!
+                          </label>
                         </div>
                       </div>
                       <div className="w-full lg:w-12/12 px-4">
-                        <div className="relative w-full mb-3">
+                      <div className="relative w-full mb-3">
                           <label
                             className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                             htmlFor="grid-password"
                           >
-                            Address line
+                            Address line 
                           </label>
                           <input
                             type="text"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                            defaultValue="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
+                            placeholder="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
+                            onChange={(e)=>{setAddressline2(e.target.value)}}
+                            onKeyUp={()=>{removeWarning("addrline")}}
+                            required
                           />
+                          <label
+                            id="addrline"
+                            style={{color : "red" , fontSize : "12px" , display : "none"}}
+                          >
+                            *This field should not be empty!
+                          </label>
                         </div>
                       </div>
                       <div className="w-full lg:w-6/12 px-4">
@@ -309,7 +466,7 @@ export default function CreatePost() {
                           <input
                             type="text"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                            defaultValue="XXXXXX"
+                            placeholder=""
                             onChange={(e)=>{setpostalCode(e.target.value)}}
                           />
                           <br />
@@ -362,21 +519,29 @@ export default function CreatePost() {
                     </h6>
                     <div className="flex flex-wrap">
                         <div className="w-full lg:w-12/12 px-4">
-                        <div className="relative w-full mb-3">
-                            <label
-                            className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                            htmlFor="grid-password"
-                            >
-                            Description
-                            </label>
-                            <textarea
-                            type="text"
-                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                            defaultValue="A beautiful UI Kit and Admin for React & Tailwind CSS. It is Free and Open Source."
-                            rows="4"
-                            onChange={(e)=>{setDescription(e.target.value)}}
-                            ></textarea>
-                        </div>
+                          <div className="relative w-full mb-3">
+                              <label
+                                className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                                htmlFor="grid-password"
+                              >
+                              Description
+                              </label>
+                              <textarea
+                                type="text"
+                                className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                placeholder="A beautiful UI Kit and Admin for React & Tailwind CSS. It is Free and Open Source."
+                                rows="4"
+                                onChange={(e)=>{setDescription(e.target.value)}}
+                                onKeyUp={()=>{removeWarning("description")}}
+                                >
+                              </textarea>
+                              <label
+                                id="description"
+                                style={{color : "red" , fontSize : "12px" , display : "none"}}
+                              >
+                              *This field should not be empty!
+                              </label>
+                          </div>
                         </div>
                     </div>
                     <br />

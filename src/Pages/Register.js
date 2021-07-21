@@ -4,6 +4,8 @@ import app from "../firebase";
 import axios from "axios";
 import {ValidateSignupData} from "../Shared/Validation/validation";
 import Select from "react-select";
+import { useHistory } from "react-router-dom";
+import { useRef } from "react";
 
 export default function Register() {
 
@@ -21,6 +23,7 @@ export default function Register() {
   const [state, setState] = useState('');
   const [country, setCountry] = useState('India');
   const [postalCode, setPostalCode] = useState('');
+  const check = useRef(true);
   const Genderoptions = [
     { label: "Male", value: "male" },
     { label: "Female", value: "female" },
@@ -28,9 +31,13 @@ export default function Register() {
   ];
   //const [userID, setUserID] = useState('abcd');
   let temp;
+  let history = useHistory();
 
   useEffect(() => {
-    funcName("https://api.postalpincode.in/pincode/" + postalCode);
+    if(!check.current)
+      funcName("https://api.postalpincode.in/pincode/" + postalCode);
+    else  
+      check.current = false;
   },[postalCode])
 
   const funcName = async (url) => {
@@ -77,7 +84,9 @@ export default function Register() {
         user_name: username,
         dob: DOB,
         gender: gender,
-        postalCode: postalCode
+        postalCode: postalCode,
+        area: addressline1,
+        addressline: addressline2
       };
       console.log(obj);
       
@@ -129,6 +138,12 @@ export default function Register() {
 
         if(check.errors.postalCode != null)
           document.getElementById("length6").style.display = "initial";
+        
+        if(check.errors.area != null)
+          document.getElementById("area").style.display = "initial";
+
+        if(check.errors.addressline != null)
+          document.getElementById("addrline").style.display = "initial";
 
         if(str !== null && str!== "" /*&& str!== "undefined"*/){
           alert(str);
@@ -169,6 +184,8 @@ export default function Register() {
         },
         uid : temp
       });
+
+      history.push('/Login');
   }
 
   const removeWarning = (id) => {
@@ -221,7 +238,7 @@ export default function Register() {
                           <input
                             type="text"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                            defaultValue=""
+                            placeholder=""
                             onChange={(e)=>{setfirstname(e.target.value)}}
                             onKeyUp={()=>{removeWarning("firstname")}}
                             required
@@ -245,7 +262,7 @@ export default function Register() {
                           <input
                             type="text"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                            defaultValue=""
+                            placeholder=""
                             onChange={(e)=>{setlastname(e.target.value)}}
                             onKeyUp={()=>{removeWarning("lastname")}}
                             required
@@ -269,7 +286,7 @@ export default function Register() {
                           <input
                             type="text"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                            defaultValue=""
+                            placeholder=""
                             name="username"
                             onChange={(e)=>{setUsername(e.target.value)}}
                             onKeyUp={()=>{removeWarning("UserName")}}
@@ -319,7 +336,7 @@ export default function Register() {
                           <input
                             type="email"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                            defaultValue="jesse@example.com"
+                            placeholder="jesse@example.com"
                             onChange={(e)=>{setemail(e.target.value)}}
                             onKeyUp={()=>{removeWarning("emailaddr")}}
                           />
@@ -342,7 +359,7 @@ export default function Register() {
                           <input
                             type="password"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                            defaultValue="password"
+                            placeholder="password"
                             onChange={(e)=>{setpassword(e.target.value)}}
                             onKeyUp={()=>{removeWarning("passw")}}
                           />
@@ -367,7 +384,7 @@ export default function Register() {
                           <input
                             type="tel"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                            defaultValue="Mobile Number"
+                            placeholder="Mobile Number"
                             onChange={(e)=>{setMobileNumber(e.target.value)}}
                             onKeyUp={()=>{removeWarning("mobileno")}}
                           />
@@ -425,10 +442,17 @@ export default function Register() {
                           <input
                             type="text"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                            defaultValue="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
+                            placeholder="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
                             onChange={(e)=>{setAddressline1(e.target.value)}}
+                            onKeyUp={()=>{removeWarning("area")}}
                             required
                           />
+                          <label
+                            id="area"
+                            style={{color : "red" , fontSize : "12px" , display : "none"}}
+                          >
+                            *This field should not be empty!
+                          </label>
                         </div>
                       </div>
                       <div className="w-full lg:w-12/12 px-4">
@@ -442,10 +466,17 @@ export default function Register() {
                           <input
                             type="text"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                            defaultValue="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
+                            placeholder="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
                             onChange={(e)=>{setAddressline2(e.target.value)}}
+                            onKeyUp={()=>{removeWarning("addrline")}}
                             required
                           />
+                          <label
+                            id="addrline"
+                            style={{color : "red" , fontSize : "12px" , display : "none"}}
+                          >
+                            *This field should not be empty!
+                          </label>
                         </div>
                       </div>
                       <div className="w-full lg:w-6/12 px-4">
@@ -459,7 +490,7 @@ export default function Register() {
                           <input
                             type="text"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                            defaultValue="New York"
+                            placeholder="New York"
                             //onChange={(e)=>{setCity(e.target.value)}}
                             value={city}
                             readOnly
@@ -477,7 +508,7 @@ export default function Register() {
                           <input
                             type="text"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                            defaultValue=""
+                            placeholder=""
                             onChange={(e)=>{setPostalCode(e.target.value)}}
                             required
                           />
@@ -500,7 +531,7 @@ export default function Register() {
                           <input
                             type="text"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                            defaultValue="Texas"
+                            placeholder="Texas"
                             //onChange={(e)=>{setState(e.target.value)}}
                             value={state}
                             readOnly
@@ -519,7 +550,7 @@ export default function Register() {
                             type="text"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                             defaultValue="India"
-                            onChange={(e)=>{setCountry(e.target.value)}}
+                            //onChange={(e)=>{setCountry(e.target.value)}}
                             readOnly
                           />
                         </div>

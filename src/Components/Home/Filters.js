@@ -66,16 +66,21 @@ export default function Filters(props) {
   const fetchdata = async () => {
     const temp = [];
     const temp2 = [];
+    const temparr1 = [];
+    const temparr2 = [];
     const res = await axios.get("http://localhost:5000/user/getAllPost");
     console.log("res.data",res.data);
     setData(res.data);
     //setfilteredData(res.data);
     settempData(res.data);
-    res.data.forEach(doc =>{
-        if(temp.indexOf({ label: doc.city, value: doc.city }) === -1){
+    res.data.map(doc =>{
+      // console.log("repeat",temp.values());
+        if(temparr1.indexOf( /*{ label: doc.city, value: */doc.city /*}*/ ) === -1 ){
+            temparr1.push(doc.city);
             temp.push({ label: doc.city, value: doc.city });
         }
-        if(temp2.indexOf({ label: doc.addressline1, value: doc.addressline1 }) === -1){
+        if(temparr2.indexOf(/*{ label: doc.addressline1, value: */doc.addressline1 /*}*/) === -1){
+            temparr2.push(doc.addressline1);
             temp2.push({ label: doc.addressline1, value: doc.addressline1 });
         }
     })
@@ -136,13 +141,14 @@ export default function Filters(props) {
     console.log("area : ",areaValue);
     console.log("gender : ",genderValue);
     console.log("rent : ",rentValue);
-
+    console.log("filtereddatabefore",filteredData);
     if(cityvalue !== "")
     {
       filteredData.forEach(doc => {
         const index = filteredData.indexOf(doc);
         if(doc.city !== cityvalue)
           filteredData[index] = {};
+          //console.log("citywala",filteredData);
       })
     }
     if(areaValue !== "")
@@ -151,6 +157,7 @@ export default function Filters(props) {
         const index = filteredData.indexOf(doc);
         if(doc.addressline1 !== areaValue)
           filteredData[index] = {};
+          //console.log("areawala",filteredData);
       })
     }
     if(genderValue !== "")

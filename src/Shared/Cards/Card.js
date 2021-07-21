@@ -17,7 +17,8 @@ export default function Card(props) {
         <div className="h-full">
           <img
             //src="https://picsum.photos/id/1000/600/500"
-            src = {props.ImgUrl[0]}
+            src={props.ImgUrl[0] || "http://via.placeholder.com/300"}
+            //src = {props.ImgUrl[0]}
             alt="pic"
             className="object-fit rounded-lg"
             style={imgStyle}

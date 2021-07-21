@@ -3,6 +3,9 @@ import React , {useState} from "react";
 import { useEffect } from "react";
 import ImgCompForUpdate from "../Components/ImgCompForUpdate";
 import app from "../firebase";
+import Select from "react-select";
+import {ValidateSignupData} from "../Shared/Validation/validation2";
+import { useHistory } from 'react-router';
 
 export default function UpdatePost(props) {
 
@@ -21,18 +24,92 @@ export default function UpdatePost(props) {
     const [description, setDescription] = useState(data.description);
     const [city, setCity] = useState(data.city);
     const [addressline1, setAddressline1] = useState(data.addressline1);
+    const [addressline2, setAddressline2] = useState('');
     const [rent, setRent] = useState(data.rent);
     const [profession, setProfession] = useState(data.profession);
+    const [postalCode, setpostalCode] = useState(data.postalCode);
+    const [STATE, setSTATE] = useState(data.state);
+
+    const Genderoptions = [
+      { label: "Male", value: "male" },
+      { label: "Female", value: "female" },
+      { label: "other", value: "other" },
+    ];
 
     const [fileUrl, setFileUrl] = useState(data.ImgUrl);
 
     const [token, settoken] = useState("");
+
+    let history = useHistory();
 
     useEffect(()=>{
         console.log("fileurl in update post",fileUrl);
     },[fileUrl]);
 
     const updation = async () => {
+
+        let obj = {
+          //first_name: firstname,
+          //last_name: lastname,
+          gender: gender,
+          //postalCode: postalCode,
+          //area: addressline1,
+          //addressline: addressline2,
+          vacancy: vacancy,
+          rent: rent,
+          profession: profession,
+          description: description,
+        };
+        console.log(obj);
+        
+        const check = ValidateSignupData(obj);
+
+        if(!check.valid)
+        {
+          let str ="";
+          console.log("In check", check);
+
+          if(check.errors.vacancy != null)
+            document.getElementById("vacancy").style.display = "initial";
+            //str+=check.errors.email + "\n";
+
+          if(check.errors.rent != null)
+            document.getElementById("rent").style.display = "initial";
+            // str+=check.errors.password + "\n";
+            
+          if(check.errors.profession != null)
+            document.getElementById("profession").style.display = "initial";
+            // str+=check.errors.MobileNumber;
+            
+
+          // if(check.errors.first_name != null){
+          //   document.getElementById("firstname").style.display = "initial";
+          //   console.log("inside firstname")
+          // }
+
+          // if(check.errors.last_name != null)
+          //   document.getElementById("lastname").style.display = "initial";
+
+          if(check.errors.description != null)
+            document.getElementById("description").style.display = "initial";
+
+          if(check.errors.gender != null)
+            document.getElementById("gender").style.display = "initial";
+
+          // if(check.errors.postalCode != null)
+          //   document.getElementById("length6").style.display = "initial";
+          
+          // if(check.errors.area != null)
+          //   document.getElementById("area").style.display = "initial";
+
+          // if(check.errors.addressline != null)
+          //   document.getElementById("addrline").style.display = "initial";
+
+          if(str !== null && str!== "" /*&& str!== "undefined"*/){
+            alert(str);
+          }
+          return;
+        }
         const token = await app.auth().currentUser.getIdToken(true);
         settoken(token);
 
@@ -51,10 +128,20 @@ export default function UpdatePost(props) {
         })
         .then(res =>{
             alert(res.data);
+            history.push('/MyPost');
         });
     } 
 
-    
+    const removeWarning = (id) => {
+      console.log("id",id);
+      if(id !== null)
+        document.getElementById(id).style.display = "none";
+    }
+
+    const forGender = (e) => {
+      setGender(e.value)
+      removeWarning("gender");
+    }
 
 
     return(
@@ -88,6 +175,7 @@ export default function UpdatePost(props) {
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                             defaultValue={data.firstname}
                             onChange={(e)=>{setfirstname(e.target.value)}}
+                            readOnly
                           />
                         </div>
                       </div>
@@ -104,6 +192,7 @@ export default function UpdatePost(props) {
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                             defaultValue={data.lastname}
                             onChange={(e)=>{setlastname(e.target.value)}}
+                            readOnly
                            />
                         </div>
                       </div>
@@ -121,7 +210,14 @@ export default function UpdatePost(props) {
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                             defaultValue={data.vacancy}
                             onChange={(e)=>{setVacancy(e.target.value)}}
+                            onKeyUp={()=>{removeWarning("vacancy")}}
                           />
+                          <label
+                            id="vacancy"
+                            style={{color : "red" , fontSize : "12px" , display : "none"}}
+                          >
+                            *This field should not be empty!
+                          </label>
                         </div>
                       </div>
 
@@ -133,12 +229,24 @@ export default function UpdatePost(props) {
                           >
                             Gender
                           </label>
-                          <input
+                          {/* <input
                             type="text"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                             defaultValue={data.gender}
                             onChange={(e)=>{setGender(e.target.value)}}
+                          /> */}
+                          <Select 
+                            //onChange={(e)=>{setGender(e.value)}  ()=>{removeWarning("gender")}} 
+                            defaultValue={data.gender}
+                            onChange={(e)=>{forGender(e)}}
+                            options={Genderoptions} value={Genderoptions.filter(function(option) {return option.value === gender})}
                           />
+                          <label
+                            id="gender"
+                            style={{color : "red" , fontSize : "12px" , display : "none"}}
+                          >
+                            *This field should not be empty!
+                          </label>
                         </div>
                       </div>
 
@@ -155,7 +263,14 @@ export default function UpdatePost(props) {
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                             defaultValue={data.rent}
                             onChange={(e)=>{setRent(e.target.value)}}
+                            onKeyUp={()=>{removeWarning("rent")}}
                            />
+                           <label
+                            id="rent"
+                            style={{color : "red" , fontSize : "12px" , display : "none"}}
+                          >
+                            *This field should not be empty!
+                          </label>
                         </div>
                       </div>
 
@@ -172,7 +287,14 @@ export default function UpdatePost(props) {
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                             defaultValue={data.profession}
                             onChange={(e)=>{setProfession(e.target.value)}}
+                            onKeyUp={()=>{removeWarning("profession")}}
                           />
+                          <label
+                            id="profession"
+                            style={{color : "red" , fontSize : "12px" , display : "none"}}
+                          >
+                            *This field should not be empty!
+                          </label>
                         </div>
                       </div>
                       
@@ -196,6 +318,7 @@ export default function UpdatePost(props) {
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                             defaultValue={data.addressline1}
                             onChange={(e)=>{setAddressline1(e.target.value)}}
+                            readOnly
                           />
                         </div>
                       </div>
@@ -210,7 +333,9 @@ export default function UpdatePost(props) {
                           <input
                             type="text"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                            defaultValue="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
+                            defaultValue={data.addressline2}
+                            onChange={(e)=>{setAddressline2(e.target.value)}}
+                            readOnly
                           />
                         </div>
                       </div>
@@ -227,6 +352,7 @@ export default function UpdatePost(props) {
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                             defaultValue={data.city}
                             onChange={(e)=>{setCity(e.target.value)}}
+                            readOnly
                           />
                         </div>
                       </div>
@@ -241,7 +367,9 @@ export default function UpdatePost(props) {
                           <input
                             type="text"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                            defaultValue="Postal Code"
+                            defaultValue={data.postalCode}
+                            onChange={(e)=>{setpostalCode(e.target.value)}}
+                            readOnly
                           />
                         </div>
                       </div>
@@ -256,7 +384,9 @@ export default function UpdatePost(props) {
                           <input
                             type="text"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                            defaultValue="New York"
+                            defaultValue={data.state}
+                            onChange={(e)=>{setSTATE(e.target.value)}}
+                            readOnly
                           />
                         </div>
                       </div>
@@ -271,7 +401,8 @@ export default function UpdatePost(props) {
                           <input
                             type="text"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                            defaultValue="United States"
+                            defaultValue="India"
+                            readOnly
                           />
                         </div>
                       </div>
@@ -296,7 +427,14 @@ export default function UpdatePost(props) {
                             defaultValue={data.description}
                             rows="4"
                             onChange={(e)=>{setDescription(e.target.value)}}
+                            onKeyUp={()=>{removeWarning("description")}}
                             ></textarea>
+                            <label
+                            id="description"
+                            style={{color : "red" , fontSize : "12px" , display : "none"}}
+                            >
+                            *This field should not be empty!
+                            </label>
                         </div>
                         </div>
                     </div>

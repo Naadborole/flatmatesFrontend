@@ -102,6 +102,11 @@ useEffect( () => {
   }
 
   const handleDelete = async (url , name) => {
+    if(fileUrl.length === 1)
+    {
+      alert("There should be atleast one image, add one to delete this!");
+      return;
+    }
         let temp = app.storage();
         let pictureRef = temp.refFromURL(url);
         pictureRef.delete()
