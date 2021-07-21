@@ -11,7 +11,7 @@
 
   exports.ValidateSignupData = (data) => {
     let errors = {};
-    
+    console.log("in validate",data);
     // console.log(data.email);
     // if (isEmpty(data.email)) {
     //   errors.email = '*This field should not be empty!';
@@ -23,8 +23,8 @@
     
     if(isEmpty(data.first_name)) errors.first_name = '*This field should not be empty!';
     if(isEmpty(data.last_name)) errors.last_name = '*This field should not be empty!';
-    //if(isEmpty(data.user_name)) errors.user_name = '*This field should not be empty!';
-    //if(isEmpty(data.dob)) errors.dob = '*This field should not be empty!';
+    if(isEmpty(data.user_name)) errors.user_name = '*This field should not be empty!';
+    if(isEmpty(data.dob)) errors.dob = '*This field should not be empty!';
     if(isEmpty(data.gender)) errors.gender = '*This field should not be empty!';
     if(isEmpty(data.postalCode)) errors.postalCode = '*This field should not be empty!';
     if(isEmpty(data.area)) errors.area = '*This field should not be empty!';
@@ -43,8 +43,8 @@
 
     //if (isEmpty(data.handle)) errors.handle = 'Must not be empty.';
 
-    // if(data.MobileNumber.length !== 10)
-    //     errors.MobileNumber = 'Mobile Number should be 10 digits only.';
+    if(data.MobileNumber.length !== 10)
+        errors.MobileNumber = 'Mobile Number should be 10 digits only.';
   
     return {
       errors,
