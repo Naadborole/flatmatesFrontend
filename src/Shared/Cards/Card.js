@@ -13,7 +13,7 @@ export default function Card(props) {
   return (
     <>
     <Link to={tempurl}>
-      <div className="relative flex flex-row break-words bg-white w-full mb-8 shadow-3xl hover:shadow-lg rounded-lg border-t-8 border-bluenav p-4 pattern">
+      <div className="relative flex flex-row break-words bg-white w-full mb-8 shadow-3xl hover:shadow-lg rounded-lg p-4 pattern">
         <div className="h-full">
           <img
             //src="https://picsum.photos/id/1000/600/500"

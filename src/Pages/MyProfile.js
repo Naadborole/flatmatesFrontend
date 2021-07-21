@@ -278,16 +278,16 @@ const forGender = (e) => {
 
   return (
     <>
-      <section className="relative w-full h-full py-40 min-h-screen">
-        <div
+      <section className="relative w-full h-full py-10 min-h-screen">
+        {/* <div
           className="absolute top-0 w-full h-full bg-blueGray-800 bg-no-repeat bg-full"
           style={{ backgroundImage: "url(" + background + ")" }}
-        ></div>
+        ></div> */}
 
         <div className="container mx-auto px-4 h-full">
           <div className="flex content-center items-center justify-center h-full">
             <div className="w-full lg:w-8/12 px-4">
-              <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0">
+              <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-white border-0">
                 <div className="relative rounded-t flex mb-0 px-6 py-6 self-center">
                   <div className="relative text-center">
                     <h6 className="text-blueGray-700 text-5xl uppercase font-semibold">

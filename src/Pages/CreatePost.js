@@ -215,10 +215,10 @@ export default function CreatePost() {
 
 
     return(
-        <div className="container mx-auto px-4 h-full">
+        <div className="container mx-auto px-4 py-10 h-full">
           <div className="flex content-center items-center justify-center h-full">
             <div className="w-full lg:w-8/12 px-4">
-              <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0">
+              <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-white border-0">
                 <div className="relative rounded-t flex mb-0 px-6 py-6 self-center">
                   <div className="relative text-center">
                     <h6 className="text-blueGray-700 text-5xl uppercase font-semibold">
@@ -529,7 +529,7 @@ export default function CreatePost() {
                               <textarea
                                 type="text"
                                 className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                                placeholder="A beautiful UI Kit and Admin for React & Tailwind CSS. It is Free and Open Source."
+                                placeholder="Enter Description"
                                 rows="4"
                                 onChange={(e)=>{setDescription(e.target.value)}}
                                 onKeyUp={()=>{removeWarning("description")}}

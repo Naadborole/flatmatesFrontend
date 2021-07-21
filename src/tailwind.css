@@ -516,7 +516,7 @@ video {
   height: auto;
 }
 
-[type='text'],[type='email'],[type='url'],[type='password'],[type='date'],[type='time'],textarea,select {
+[type='text'],[type='email'],[type='url'],[type='password'],[type='number'],[type='date'],[type='tel'],[type='time'],[multiple],textarea,select {
   -webkit-appearance: none;
           appearance: none;
   background-color: #fff;
@@ -531,7 +531,7 @@ video {
   line-height: 1.5rem;
 }
 
-[type='text']:focus, [type='email']:focus, [type='url']:focus, [type='password']:focus, [type='date']:focus, [type='time']:focus, textarea:focus, select:focus {
+[type='text']:focus, [type='email']:focus, [type='url']:focus, [type='password']:focus, [type='number']:focus, [type='date']:focus, [type='tel']:focus, [type='time']:focus, [multiple]:focus, textarea:focus, select:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
   --tw-ring-inset: var(--tw-empty,/*!*/ /*!*/);
@@ -569,7 +569,17 @@ select {
           color-adjust: exact;
 }
 
-[type='checkbox'] {
+[multiple] {
+  background-image: initial;
+  background-position: initial;
+  background-repeat: unset;
+  background-size: initial;
+  padding-right: 0.75rem;
+  -webkit-print-color-adjust: unset;
+          color-adjust: unset;
+}
+
+[type='checkbox'],[type='radio'] {
   -webkit-appearance: none;
           appearance: none;
   padding: 0;
@@ -595,7 +605,11 @@ select {
   border-radius: 0px;
 }
 
-[type='checkbox']:focus {
+[type='radio'] {
+  border-radius: 100%;
+}
+
+[type='checkbox']:focus,[type='radio']:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
   --tw-ring-inset: var(--tw-empty,/*!*/ /*!*/);
@@ -607,7 +621,7 @@ select {
   box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
 }
 
-[type='checkbox']:checked {
+[type='checkbox']:checked,[type='radio']:checked {
   border-color: transparent;
   background-color: currentColor;
   background-size: 100% 100%;
@@ -619,7 +633,11 @@ select {
   background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
 }
 
-[type='checkbox']:checked:hover,[type='checkbox']:checked:focus {
+[type='radio']:checked {
+  background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='3'/%3e%3c/svg%3e");
+}
+
+[type='checkbox']:checked:hover,[type='checkbox']:checked:focus,[type='radio']:checked:hover,[type='radio']:checked:focus {
   border-color: transparent;
   background-color: currentColor;
 }
@@ -1202,11 +1220,6 @@ select {
   border-color: rgba(100, 116, 139, var(--tw-border-opacity));
 }
 
-.border-bluenav {
-  --tw-border-opacity: 1;
-  border-color: rgba(0, 53, 102, var(--tw-border-opacity));
-}
-
 .focus\:border-indigo-500:focus {
   --tw-border-opacity: 1;
   border-color: rgba(99, 102, 241, var(--tw-border-opacity));
@@ -1251,10 +1264,6 @@ select {
 
 .border {
   border-width: 1px;
-}
-
-.border-t-8 {
-  border-top-width: 8px;
 }
 
 .border-t {
@@ -1346,10 +1355,6 @@ select {
 .self-center {
   -webkit-align-self: center;
           align-self: center;
-}
-
-.justify-items-center {
-  justify-items: center;
 }
 
 .justify-end {
@@ -1504,6 +1509,10 @@ select {
 
 .m-2 {
   margin: 0.5rem;
+}
+
+.-m-5 {
+  margin: -1.25rem;
 }
 
 .-m-16 {
@@ -1758,6 +1767,11 @@ select {
 
 .p-4 {
   padding: 1rem;
+}
+
+.py-0 {
+  padding-top: 0px;
+  padding-bottom: 0px;
 }
 
 .px-0 {
@@ -2079,6 +2093,10 @@ select {
   text-align: right;
 }
 
+.text-justify {
+  text-align: justify;
+}
+
 .text-black {
   --tw-text-opacity: 1;
   color: rgba(0, 0, 0, var(--tw-text-opacity));
@@ -2236,10 +2254,6 @@ select {
 
 .w-1\/2 {
   width: 50%;
-}
-
-.w-4\/12 {
-  width: 33.333333%;
 }
 
 .w-6\/12 {
@@ -2464,8 +2478,12 @@ select {
     padding-right: 1.5rem;
   }
 
-  .sm\:w-4\/12 {
-    width: 33.333333%;
+  .sm\:w-3\/12 {
+    width: 25%;
+  }
+
+  .sm\:w-7\/12 {
+    width: 58.333333%;
   }
 
   .sm\:w-8\/12 {

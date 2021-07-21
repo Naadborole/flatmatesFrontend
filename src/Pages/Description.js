@@ -7,7 +7,6 @@ import "../Shared/Cards/patternCss.css"
 import "../assets/styles/button.css";
 import DescriptionCard from "../Components/DescriptionCard";
 import axios from "axios";
-import CarouselComp from "../Components/CarouselComp/CarouselComp";
 import ImageCarousel from "../Shared/ImageCarousel/ImageCarousel";
 import { send } from 'emailjs-com';
 import{ init } from 'emailjs-com';
@@ -156,7 +155,7 @@ export default function Description() {
     return (
     <>
         
-        <section className="relative w-full h-full py-10 min-h-screen patternbg">
+        <section className="relative w-full h-full py-10 min-h-screen">
             {/* <Carousel /> */}
             <ImageCarousel ImgUrl={value.ImgUrl} />
             {/* <CarouselComp ImgUrl={value.ImgUrl} /> */}
