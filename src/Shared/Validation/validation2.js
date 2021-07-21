@@ -43,7 +43,7 @@
 
     //if (isEmpty(data.handle)) errors.handle = 'Must not be empty.';
 
-    if(data.MobileNumber.length !== 10)
+    if(data.MobileNumber !== undefined && data.MobileNumber.length !== 10)
         errors.MobileNumber = 'Mobile Number should be 10 digits only.';
   
     return {
