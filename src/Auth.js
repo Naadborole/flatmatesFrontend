@@ -19,8 +19,10 @@ export const AuthProvider = ({ children }) => {
     return (
         <ReactLogo  Style={{
           display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          // alignItems: 'center',
+          // justifyContent: 'center',
+          placeItems: 'center',
+          height: '100vh'
       }}/>
     );
   }

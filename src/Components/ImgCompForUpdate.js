@@ -138,14 +138,20 @@ useEffect( () => {
       <form onSubmit={ onSubmit }>
         <input type="file" multiple onChange={ handleChange } />
         <progress value={ progress } max="100" />
-        <button onClick={ handleUpload }>Upload</button>
+        <button className="button button2" onClick={ handleUpload }>
+         <span>Upload </span><i class="fas fa-upload" style={{fontSize:"18px"}}></i>
+        </button>
       </form>
-      <br />
+      <br /><br />
       {fileUrl.map((url) => (
         <div>
-          <img style={{ width: "500px" }} src={url || "http://via.placeholder.com/300"} alt="firebase ka chitra" />
-          <button type="button" onClick={() => handleDelete(url) } style={{backgroundColor : "red", padding:"10px", color:"white"}}> Delete </button> 
-          <br />
+          <center>
+            <img style={{ width: "500px" }} src={url || "http://via.placeholder.com/300"} alt="img" />
+            <button type="button" className="bg-blueGray-100" onClick={() => handleDelete(url) } style={{padding:"10px", color:"white"}}> 
+              <i class='far fa-trash-alt' style={{fontSize:"24px" , color:"red"}}></i>
+            </button> 
+          </center>
+          <br /><br />
         </div>
         )
       )}

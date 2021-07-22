@@ -72,13 +72,13 @@ export default function MyPost(props) {
 
     return (
         <div>
-          <main className="bg-transparent -m-5">
+          <main className="bg-transparent -mt-5">
             <div className="w-full py-6 mt-5 px-5 flex flex-row justify-center">
               <div className="realtive sm:w-8/12 w-full">
                 {cardData.map((data) => (
                     <div>
                         <Card {...data}></Card>
-                        <center className='mb-3 -mt-3'>
+                        <center className='mb-3 -mt-4'>
                             <button type="button" className="button button2" id="EditButton" onClick={()=>handleEdit(data)}>  
                                 <i Style='font-size:24px' className='fas'>&#xf304;</i>
                             </button>
@@ -87,6 +87,7 @@ export default function MyPost(props) {
                                 <i Style='font-size:24px' className='far'>&#xf2ed;</i>
                             </button>
                         </center> 
+                        <br />
                     </div>
                 ))}
               </div>

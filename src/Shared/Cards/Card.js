@@ -26,7 +26,7 @@ export default function Card(props) {
         </div>
         <div className="relative h-full flex flex-col w-full px-14">
           <div className="self-center text-2xl font-bold mb-4  ">
-            {props.firstname + " " +props.lastname + ", " + props.age}
+            {props.firstname + " " +props.lastname}
           </div>
           <div className="relative justify-between flex flex-row font-semibold mb-2">
             <div className = "mr-14">
@@ -39,8 +39,8 @@ export default function Card(props) {
             </div>
           </div>
           <div className = "self-start font-semibold mb-3">
-            <span className="text-muted text-gray-400 mr-2 uppercase text-sm">Organization</span>
-            <span className = "text-lg ">{props.Institution}</span>
+            <span className="text-muted text-gray-400 mr-2 uppercase text-sm">Postal Code</span>
+            <span className = "text-lg ">{props.postalCode}</span>
           </div>
           <div className = "self-start font-semibold mb-3">
             <span className="text-muted text-gray-400 mr-2 uppercase text-sm">Profession</span>

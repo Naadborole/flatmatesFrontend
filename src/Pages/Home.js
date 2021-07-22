@@ -55,7 +55,7 @@ export default function Home() {
       <main className="bg-transparent">
 
         <div className="w-full py-6 mt-5 px-5 flex flex-row justify-center ">
-          <div className="realtive sm:w-7/12 w-full">
+          <div className="relative sm:w-7/12 w-full">
             {cardData.map((data) => (
                 <Card {...data}></Card>
               )

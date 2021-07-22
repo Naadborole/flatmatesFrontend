@@ -151,7 +151,6 @@ export default function Description() {
     
   };
 
-
     return (
     <>
         
@@ -160,7 +159,11 @@ export default function Description() {
             <ImageCarousel ImgUrl={value.ImgUrl} />
             {/* <CarouselComp ImgUrl={value.ImgUrl} /> */}
             <DescriptionCard value={value}/>
-            <center><button className="button button2" id="RequestButton" onClick={() => { SendRequest() }}>Send Request</button></center>
+            <center>
+              <button className="button button2" id="RequestButton" onClick={() => { SendRequest() }}>
+                Send Request <i class="fa fa-send-o" style={{fontSize :"18px"}}></i>
+              </button>
+            </center>
         </section>
         
     </>
