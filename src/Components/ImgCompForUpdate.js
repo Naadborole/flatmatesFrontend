@@ -146,7 +146,7 @@ useEffect( () => {
       {fileUrl.map((url) => (
         <div>
           <center>
-            <img style={{ width: "500px" }} src={url || "http://via.placeholder.com/300"} alt="img" />
+            <img style={{ width: "500px" , height: "500px" }} src={url || "http://via.placeholder.com/300"} alt="img" />
             <button type="button" className="bg-blueGray-100" onClick={() => handleDelete(url) } style={{padding:"10px", color:"white"}}> 
               <i class='far fa-trash-alt' style={{fontSize:"24px" , color:"red"}}></i>
             </button> 

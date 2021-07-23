@@ -227,6 +227,59 @@ export default function MyProfile() {
     alert(res.data);
     window.location.reload();
   }
+
+  const DeleteUserPostdata = async () => {
+    try{
+      const token = await app.auth().currentUser.getIdToken(true);
+      // settoken(token);
+
+      const res = await axios.post("http://localhost:5000/user/userGetPost", {
+          token : token
+      });
+      console.log("res.data",res.data); 
+      res.data.map(async (data) => {
+        //deleting Images
+          data.ImgUrl.map(async (url) => {
+            let temp = app.storage();
+            let pictureRef = temp.refFromURL(url);
+            pictureRef.delete()
+            console.log("images deleted from bucket!");
+        });
+        
+        //deleting Posts
+        const res2 = await axios.delete("http://localhost:5000/user/deletePost/" + data.pid);
+        console.log(res2.data);
+      });
+
+      const res3 = await axios.post("http://localhost:5000/user/getUID", {
+            token : token
+        })
+      console.log("res3",res3.data);
+
+      //deleting user from firebase authentication
+      const user = app.auth().currentUser;
+      const res5 = await user.delete();
+      console.log("User deleted from firebase authentication");
+
+      //delete user from database
+      const res4 = await axios.delete("http://localhost:5000/user/DeleteUser/" + res3.data);
+        console.log(res4.data);
+        alert("Account Deleted Successfully");
+        history.push('/Home');
+    }
+    catch(err)
+    {
+      alert("Error deleting user! Please Login again");
+      // alert("Please login first!");
+      // history.push('/Login');
+    } 
+  } 
+
+
+  const DeleteAccount = () => {
+    if(window.confirm("Confirm Account Deletion?"))
+      DeleteUserPostdata();
+  }
   
 //   const signup = async ()=>{
 
@@ -624,6 +677,15 @@ const forGender = (e) => {
                         onClick={()=> ForgotPassword(data.email)}
                       >
                         Reset Password
+                      </button>
+                    </div>
+                    <div>
+                      <button
+                        className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                        type="button"
+                        onClick={()=> DeleteAccount()}
+                      >
+                        Delete Account
                       </button>
                     </div>
                   </form>
