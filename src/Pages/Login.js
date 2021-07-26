@@ -28,7 +28,7 @@ export default function Login({history}) {
                 app.auth().signOut();
               }
               else
-                history.push("/home");
+                history.push("/");
             }
           });
         } catch (error) {

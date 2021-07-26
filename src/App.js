@@ -25,19 +25,19 @@ function App() {
     <Router>
       <NavbarAlt></NavbarAlt>
       <div className = 'back'>
-      <Switch>
-        <Route path='/home' exact component={Home} />
-        <Route path = '/login' exact component = {Login}></Route>
-        <PrivateRoute path="/mc" exact component={YourProfile} />
-        <Route path = "/test" exact component = {Test}/>
-        <Route path = "/register" exact component = {Register}/>
-        <Route path = "/ImgComp" exact component = {ImgComp}/>
-        <Route path = "/CreatePost" exact component = {CreatePost}/>
-        <Route path = "/Description/:id" exact component = {Description}/>
-        <Route path = "/MyPost" exact component = {MyPost}/>
-        <Route path = "/UpdatePost" exact component = {UpdatePost}/>
-        <Route path = "/MyProfile" exact component = {MyProfile}/>
-      </Switch>
+        <Switch>
+          <Route path='/' exact component={Home} />
+          <Route path = '/login' exact component = {Login}></Route>
+          <PrivateRoute path="/mc" exact component={YourProfile} />
+          <Route path = "/test" exact component = {Test}/>
+          <Route path = "/register" exact component = {Register}/>
+          <Route path = "/ImgComp" exact component = {ImgComp}/>
+          <Route path = "/CreatePost" exact component = {CreatePost}/>
+          <Route path = "/Description/:id" exact component = {Description}/>
+          <Route path = "/MyPost" exact component = {MyPost}/>
+          <Route path = "/UpdatePost" exact component = {UpdatePost}/>
+          <Route path = "/MyProfile" exact component = {MyProfile}/>
+        </Switch>
       </div>
     </Router>
     </AuthProvider>

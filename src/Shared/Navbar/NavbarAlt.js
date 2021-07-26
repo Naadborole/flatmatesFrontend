@@ -26,6 +26,7 @@ export default function NavbarAlt(props) {
     profile = ["Your Profile", "Sign out"];
     console.log("User is signed in");
   }
+
   const logOut = React.useCallback(
     async (event) => {
       event.preventDefault();
@@ -33,7 +34,8 @@ export default function NavbarAlt(props) {
         await app
           .auth()
           .signOut()
-        history.push("/home");
+        alert("You have logged out successfully!");
+        history.push("/");
       } catch (error) {
         alert(error);
       }
@@ -42,8 +44,9 @@ export default function NavbarAlt(props) {
   );
 
   const path = {
-    "Sign out": "/home",
-    "Sign In": "/login"
+    "Your Profile": "/MyProfile",
+    "Sign out": "/",
+    "Sign in": "/login"
   };
 
   const onc = {
@@ -58,6 +61,7 @@ export default function NavbarAlt(props) {
             <div className="flex items-center justify-between h-16">
               <div className="flex items-center">
                 <div className="flex-shrink-0">
+                {/* <i className="fas fa-city h-8 w-8"></i> */}
                   <img
                     className="h-8 w-8"
                     src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
@@ -71,8 +75,9 @@ export default function NavbarAlt(props) {
                         <Fragment key={item}>
                           {/* Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" */}
                           <Link
-                            to="/home"
-                            className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
+                            to="/"
+                            className="text-white hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                            // bg-gray-900
                           >
                             {item}
                           </Link>
@@ -81,7 +86,7 @@ export default function NavbarAlt(props) {
                         <Link
                           key={item}
                           to="/MyPost"
-                          className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                          className="text-white hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                         >
                           {item}
                         </Link>
@@ -129,7 +134,7 @@ export default function NavbarAlt(props) {
                               <Menu.Item key={item}>
                                 {({ active }) => (
                                   <Link
-                                    to={path[item] ? path[item] : "/home"}
+                                    to={path[item] ? path[item] : "/"}
                                     onClick={onc[item]}
                                     className={classNames(
                                       active ? "bg-gray-100" : "",
@@ -169,7 +174,7 @@ export default function NavbarAlt(props) {
                   <Fragment key={item}>
                     {/* Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" */}
                     <Link
-                      to="/home"
+                      to="/"
                       className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium"
                     >
                       {item}
@@ -208,7 +213,7 @@ export default function NavbarAlt(props) {
                 {profile.map((item) => (
                   <Link
                     key={item}
-                    to={path[item] ? path[item] : "/home"}
+                    to={path[item] ? path[item] : "/"}
                     className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
                   >
                     {item}

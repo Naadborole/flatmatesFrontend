@@ -45,7 +45,7 @@ useEffect( () => {
       newImage["id"] = Math.random;
       const ext = newImage.name.split(".")[newImage.name.split(".").length - 1];
       console.log(ext);
-      if(ext.localeCompare("jpeg") != 0 && ext.localeCompare("png") != 0)
+      if(ext.localeCompare("jpeg") != 0 && ext.localeCompare("png") != 0 && ext.localeCompare("jpg") != 0 && ext.localeCompare("JPG") != 0 && ext.localeCompare("JPEG") != 0 && ext.localeCompare("PNG") != 0)
       {
         alert("error Wrong file type submitted");
         //array clear karneka

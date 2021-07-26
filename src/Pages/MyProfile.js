@@ -44,16 +44,23 @@ export default function MyProfile() {
     },[pending])
 
     const fetchdata = async () => {
-      const token = await app.auth().currentUser.getIdToken(true);
-      setToken(token);
+      try{
+        const token = await app.auth().currentUser.getIdToken(true);
+        setToken(token);
 
-      const res = await axios.post("http://localhost:5000/user/getUserbytoken", {
-          token : token
-      });
-      console.log("res",res.data);
-      setData(res.data);
-      // setPending(false);
-      //checking();
+        const res = await axios.post("http://localhost:5000/user/getUserbytoken", {
+            token : token
+        });
+        console.log("res",res.data);
+        setData(res.data);
+        // setPending(false);
+        //checking();
+      }
+      catch(err)
+      {
+        alert("Please login first!");
+        history.push('/Login');
+      }
     };
 
     const settingValues = () => {
@@ -660,34 +667,39 @@ const forGender = (e) => {
                     </div>
                     <hr className="mt-6 border-b-1 border-blueGray-300" />
                     <br />
-                    
-                    <div>
-                      <button
-                        className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                        type="button"
-                        onClick={EditProfile}
-                      >
-                        Update
-                      </button>
+                  <div className="flex flex-wrap">
+                    <button
+                      className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-3 w-full ease-linear transition-all duration-150"
+                      type="button"
+                      onClick={EditProfile}
+                    >
+                      Update
+                    </button>
+
+                    <div className="w-full lg:w-6/12 px-2">
+                      <div className="relative w-full mb-3">
+                        <button
+                          className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                          type="button"
+                          onClick={()=> ForgotPassword(data.email)}
+                        >
+                          Reset Password
+                        </button>
+                      </div>
                     </div>
-                    <div>
-                      <button
-                        className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                        type="button"
-                        onClick={()=> ForgotPassword(data.email)}
-                      >
-                        Reset Password
-                      </button>
+                    <div className="w-full lg:w-6/12 px-2">
+                      <div className="relative w-full mb-3">
+                        <button
+                          className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                          type="button"
+                          onClick={()=> DeleteAccount()}
+                        >
+                          Delete Account
+                        </button>
+                      </div>
                     </div>
-                    <div>
-                      <button
-                        className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                        type="button"
-                        onClick={()=> DeleteAccount()}
-                      >
-                        Delete Account
-                      </button>
-                    </div>
+                  </div>
+                  
                   </form>
                 </div>
               </div>

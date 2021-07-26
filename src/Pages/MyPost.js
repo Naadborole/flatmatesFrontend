@@ -73,7 +73,14 @@ export default function MyPost(props) {
     return (
         <div>
           <main className="bg-transparent -mt-5">
-            <div className="w-full py-6 mt-5 px-5 flex flex-row justify-center">
+          <div className = "mt-5 ml-2 py-2">
+            <Link to="/CreatePost">
+              <button type="button" className="button button2 font-bold shadow-3xl hover:shadow-lg" id="EditButton" style = {{backgroundColor: "#003566"}} >  
+                <i class="fa fa-plus" aria-hidden="true" style={{fontSize : "22px"}}></i> <span style={{fontSize : "22px" , marginLeft:"10px"}}>Create Post</span>
+              </button>
+            </Link>
+          </div>
+            <div className="w-full py-6 px-5 flex flex-row justify-center">
               <div className="realtive sm:w-8/12 w-full">
                 {cardData.map((data) => (
                     <div>

@@ -446,15 +446,17 @@ export default function UpdatePost(props) {
                         </div>
                     </div>
 
-                    <div>
-                      <button
-                        className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                        type="button"
-                        onClick={updation}
-                      >
-                        Edit Post
-                      </button>
-                    </div>
+                    <center>
+                      <div className="text-center mt-6 w-6/12 self-center">
+                        <button
+                          className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                          type="button"
+                          onClick={updation}
+                        >
+                          Edit Post
+                        </button>
+                      </div>
+                    </center>
 
                     <hr className="mt-6 border-b-1 border-blueGray-300" />
  
