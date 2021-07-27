@@ -68,7 +68,7 @@ export default function Filters(props) {
     const temp2 = [];
     const temparr1 = [];
     const temparr2 = [];
-    const res = await axios.get("http://localhost:5000/user/getAllPost");
+    const res = await axios.get("https://findflatmates.herokuapp.com/user/getAllPost");
     console.log("res.data",res.data);
     setData(res.data);
     //setfilteredData(res.data);

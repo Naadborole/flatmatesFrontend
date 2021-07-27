@@ -114,7 +114,7 @@ export default function UpdatePost(props) {
         const token = await app.auth().currentUser.getIdToken(true);
         settoken(token);
 
-        const res = await axios.put("http://localhost:5000/user/updatePost", {
+        const res = await axios.put("https://findflatmates.herokuapp.com/user/updatePost", {
             firstname : firstname,
             lastname : lastname,
             gender : gender,

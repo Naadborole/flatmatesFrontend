@@ -16,7 +16,7 @@ export default function Test() {
       body: JSON.stringify({ token: token }),
     };
     const response = await fetch(
-      "http://localhost:5000/user/verify",
+      "https://findflatmates.herokuapp.com/user/verify",
       requestOptions
     );
     return response;

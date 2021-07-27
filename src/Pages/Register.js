@@ -166,7 +166,7 @@ export default function Register() {
       //setUserID(temp);
       console.log(temp);
 
-      await axios.post("http://localhost:5000/user/signup", {
+      await axios.post("https://findflatmates.herokuapp.com/user/signup", {
         user : {
           firstname : firstname,
           lastname: lastname,

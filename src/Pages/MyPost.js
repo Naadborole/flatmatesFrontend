@@ -20,7 +20,7 @@ export default function MyPost(props) {
         const token = await app.auth().currentUser.getIdToken(true);
         settoken(token);
 
-        const res = await axios.post("http://localhost:5000/user/userGetPost", {
+        const res = await axios.post("https://findflatmates.herokuapp.com/user/userGetPost", {
             token : token
         });
         console.log("res.data",res.data);

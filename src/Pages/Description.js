@@ -36,7 +36,7 @@ export default function Description() {
         var tempurl = window.location.pathname;
         var id = tempurl.substring(tempurl.lastIndexOf('/') + 1);
 
-        const res = await axios.get("http://localhost:5000/user/getPost/" + id)
+        const res = await axios.get("https://findflatmates.herokuapp.com/user/getPost/" + id)
         console.log("res",res);
         setValue(res.data);
     }
@@ -66,7 +66,7 @@ export default function Description() {
   
 
   const fetchUserbyid = async () => {
-    const res = await axios.get("http://localhost:5000/user/getUserid/" + value.uid)
+    const res = await axios.get("https://findflatmates.herokuapp.com/user/getUserid/" + value.uid)
     console.log("res",res.data);
     setReceiverEmail(res.data.email);
     // receiverEmail = res.data.email;    
@@ -77,7 +77,7 @@ export default function Description() {
         const token = await app.auth().currentUser.getIdToken(true);
         settoken(token);
 
-        const res2 = await axios.post("http://localhost:5000/user/getUserbytoken", {
+        const res2 = await axios.post("https://findflatmates.herokuapp.com/user/getUserbytoken", {
             token : token
         })
         console.log("res2",res2.data);

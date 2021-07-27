@@ -177,7 +177,7 @@ export default function CreatePost() {
           return;
         }
 
-         await axios.post("http://localhost:5000/user/createPost", {
+         await axios.post("https://findflatmates.herokuapp.com/user/createPost", {
             Post : {
                 firstname : firstname,
                 lastname : lastname,

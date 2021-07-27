@@ -48,7 +48,7 @@ export default function MyProfile() {
         const token = await app.auth().currentUser.getIdToken(true);
         setToken(token);
 
-        const res = await axios.post("http://localhost:5000/user/getUserbytoken", {
+        const res = await axios.post("https://findflatmates.herokuapp.com/user/getUserbytoken", {
             token : token
         });
         console.log("res",res.data);
@@ -214,7 +214,7 @@ export default function MyProfile() {
     }
 
 
-    const res = await axios.put("http://localhost:5000/user/UpdateUser", {
+    const res = await axios.put("https://findflatmates.herokuapp.com/user/UpdateUser", {
         user : {
           //firstname : firstname,
           //lastname: lastname,
@@ -240,7 +240,7 @@ export default function MyProfile() {
       const token = await app.auth().currentUser.getIdToken(true);
       // settoken(token);
 
-      const res = await axios.post("http://localhost:5000/user/userGetPost", {
+      const res = await axios.post("https://findflatmates.herokuapp.com/user/userGetPost", {
           token : token
       });
       console.log("res.data",res.data); 
@@ -254,11 +254,11 @@ export default function MyProfile() {
         });
         
         //deleting Posts
-        const res2 = await axios.delete("http://localhost:5000/user/deletePost/" + data.pid);
+        const res2 = await axios.delete("https://findflatmates.herokuapp.com/user/deletePost/" + data.pid);
         console.log(res2.data);
       });
 
-      const res3 = await axios.post("http://localhost:5000/user/getUID", {
+      const res3 = await axios.post("https://findflatmates.herokuapp.com/user/getUID", {
             token : token
         })
       console.log("res3",res3.data);
@@ -269,7 +269,7 @@ export default function MyProfile() {
       console.log("User deleted from firebase authentication");
 
       //delete user from database
-      const res4 = await axios.delete("http://localhost:5000/user/DeleteUser/" + res3.data);
+      const res4 = await axios.delete("https://findflatmates.herokuapp.com/user/DeleteUser/" + res3.data);
         console.log(res4.data);
         alert("Account Deleted Successfully");
         history.push('/Home');
@@ -305,7 +305,7 @@ export default function MyProfile() {
 //       //setUserID(temp);
 //       console.log(temp);
 
-//       await axios.post("http://localhost:5000/user/signup", {
+//       await axios.post("https://findflatmates.herokuapp.com/user/signup", {
 //         user : {
 //           firstname : firstname,
 //           lastname: lastname,

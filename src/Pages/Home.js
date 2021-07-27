@@ -25,7 +25,7 @@ export default function Home() {
   // console.log("Aniket");
 
   const fetchdata = async () => {
-      const res = await axios.get("http://localhost:5000/user/getAllPost")
+      const res = await axios.get("https://findflatmates.herokuapp.com/user/getAllPost")
       setCardData(res.data);
   }  
   
