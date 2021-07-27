@@ -137,12 +137,13 @@ export default function Description() {
             'template_0r5dkul',
             {   from_name: senderEmail,
                 to_name: receiverEmail,
-                message: "Tuzha flat aawadhla mala.....yeu ka re?\n" + "My Details :\n" + "Name : " + senderfn + " " + senderln + "\nMobile Number : " + sendermn,
+                message: "I am interested in your rental property. Please contact me earliest.\n" + "My Details :\n" + "Name : " + senderfn + " " + senderln + "\nMobile Number : " + sendermn,
                 reply_to: senderEmail,
             },
             'user_SmIBtduLIrhUgxxbogOxy'
           )
           console.log('SUCCESS!', response.status, response.text);
+          alert("Your request has been send!"); 
     }
     catch(err)
     {

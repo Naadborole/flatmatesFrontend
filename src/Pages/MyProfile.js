@@ -272,7 +272,7 @@ export default function MyProfile() {
       const res4 = await axios.delete("https://findflatmates.herokuapp.com/user/DeleteUser/" + res3.data);
         console.log(res4.data);
         alert("Account Deleted Successfully");
-        history.push('/Home');
+        history.push('/');
     }
     catch(err)
     {

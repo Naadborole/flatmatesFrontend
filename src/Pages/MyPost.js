@@ -65,7 +65,7 @@ export default function MyPost(props) {
     const handleDelete = async (id) => {
         console.log("In Delete",id);
         deleteImage(id);
-        const res = await axios.delete("http://localhost:5000/user/deletePost/" + id);
+        const res = await axios.delete("https://findflatmates.herokuapp.com/user/deletePost/" + id);
         alert(res.data);
         window.location.reload();
     };

@@ -25,7 +25,7 @@ useEffect( () => {
 // },[Img]);
 
   const EditImg = async (e) => { 
-    const res = await axios.put("http://localhost:5000/user/updatePost", {
+    const res = await axios.put("https://findflatmates.herokuapp.com/user/updatePost", {
       ImgUrl : fileUrl,
       pid : props.data.pid
   });

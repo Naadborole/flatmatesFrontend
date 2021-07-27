@@ -198,7 +198,7 @@ export default function CreatePost() {
         })
         .then(res =>{
             alert(res.data);
-            history.push('/home');
+            history.push('/');
         });
     } 
 
@@ -369,7 +369,8 @@ export default function CreatePost() {
                           <input
                             type="text"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                            defaultValue="profession"
+                            //defaultValue="profession"
+                            placeholder="profession"
                             onChange={(e)=>{setProfession(e.target.value)}}
                             onKeyUp={()=>{removeWarning("profession")}}
                           />
