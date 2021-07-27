@@ -249,10 +249,11 @@ export default function Filters(props) {
   
 
   return (
-    <div className="filter" id="divFilter">
-    <div className="relative w-full px-5 border rounded-xl patternfilter pt-5">
-      <center className="w-full mb-4">
-        <div className="relative flex flex-col bg-cyan">
+    
+    <div className="filter" id="divFilter" >
+    <div className="relative w-full px-5 border rounded-xl patternfilter pt-5" >
+      <center className="w-full mb-4" >
+        <div className="relative flex flex-col bg-cyan" >
           <h1
             className="text-black text-3xl text-bold"
           >
@@ -309,7 +310,7 @@ export default function Filters(props) {
             <i Style="font-size:24px" className="fa">&#xf021;</i>
           </button>
         </center>
-        <br />
+        
         
         {/* <Button variant="contained" color="primary">
         Search
@@ -318,6 +319,7 @@ export default function Filters(props) {
       </div>
     </div>
     </div>
+    
   );
     
 }

@@ -16,6 +16,7 @@ import Description from "./Pages/Description"
 import MyPost from "./Pages/MyPost";
 import UpdatePost  from "./Pages/UpdatePost";
 import MyProfile from "./Pages/MyProfile";
+import Footer from "./Shared/Footer/Footer"
 import './Shared/Background/StarryNight.css'
 // components
 
@@ -23,10 +24,10 @@ function App() {
   return (
     <AuthProvider>
     <Router>
-      <NavbarAlt></NavbarAlt>
+      <NavbarAlt style={{position:"fixed"}}></NavbarAlt>
       <div className = 'back'>
         <Switch>
-          <Route path='/' exact component={Home} />
+          <Route path='/' exact component={Home} ></Route>
           <Route path = '/login' exact component = {Login}></Route>
           <PrivateRoute path="/mc" exact component={YourProfile} />
           <Route path = "/test" exact component = {Test}/>
@@ -39,6 +40,7 @@ function App() {
           <Route path = "/MyProfile" exact component = {MyProfile}/>
         </Switch>
       </div>
+      <Footer/>
     </Router>
     </AuthProvider>
   );

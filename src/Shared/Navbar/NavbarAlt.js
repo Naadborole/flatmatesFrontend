@@ -7,6 +7,7 @@ import app from "../../firebase";
 import { AuthContext } from "../../Auth";
 import { useHistory } from "react-router-dom";
 import profpicM from "../../assets/img/profileMale.png";
+
 const navigation = ["Home", "My Posts"];
 let profile = ["Your Profile", "Sign out"];
 
@@ -54,7 +55,8 @@ export default function NavbarAlt(props) {
   };
 
   return (
-    <Disclosure as="nav" className="bg-bluenav">
+   
+    <Disclosure as="nav" className="bg-bluenav"  >
       {({ open }) => (
         <>
           <div className="w-full px-4">
@@ -62,11 +64,12 @@ export default function NavbarAlt(props) {
               <div className="flex items-center">
                 <div className="flex-shrink-0">
                 {/* <i className="fas fa-city h-8 w-8"></i> */}
-                  <img
+                  {/* <img
                     className="h-8 w-8"
                     src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
                     alt="Workflow"
-                  />
+                  /> */}
+                  
                 </div>
                 <div className="hidden md:block">
                   <div className="ml-10 flex items-baseline space-x-4">
@@ -76,7 +79,7 @@ export default function NavbarAlt(props) {
                           {/* Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" */}
                           <Link
                             to="/"
-                            className="text-white hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                            className="text-white hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-md font-medium"
                             // bg-gray-900
                           >
                             {item}
@@ -86,15 +89,27 @@ export default function NavbarAlt(props) {
                         <Link
                           key={item}
                           to="/MyPost"
-                          className="text-white hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                          className="text-white hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-md font-medium"
                         >
                           {item}
                         </Link>
                       ) 
                     )}
                   </div>
+
                 </div>
+
               </div>
+
+              <Link to="/" >
+              <span className="text-white " style={{fontSize:"30px",marginLeft:"-5em"}}  >
+              <i className="fas fa-home"/>
+              
+              &nbsp; FindFlatmates
+              
+              </span>
+              </Link>
+              
               <div className="hidden md:block">
                 <div className="ml-4 flex items-center md:ml-6">
                   {/* <button className="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
@@ -225,5 +240,6 @@ export default function NavbarAlt(props) {
         </>
       )}
     </Disclosure>
+    
   );
 }
