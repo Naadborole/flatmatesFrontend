@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
 import "./tailwind.css";
-import YourProfile from "./Pages/YourProfile";
 import Home from "./Pages/Home";
 import NavbarAlt from "./Shared/Navbar/NavbarAlt";
 import Form from "./Shared/ExtraForms/form";
@@ -29,7 +28,7 @@ function App() {
         <Switch>
           <Route path='/' exact component={Home} ></Route>
           <Route path = '/login' exact component = {Login}></Route>
-          <PrivateRoute path="/mc" exact component={YourProfile} />
+          {/* <PrivateRoute path="/mc" exact component={YourProfile} /> */}
           <Route path = "/test" exact component = {Test}/>
           <Route path = "/register" exact component = {Register}/>
           <Route path = "/ImgComp" exact component = {ImgComp}/>
